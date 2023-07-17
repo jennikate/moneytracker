@@ -1,1 +1,5 @@
-# moneytracker
+# Money Tracker
+
+- Prisma
+- SQLite
+
