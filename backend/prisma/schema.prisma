@@ -43,8 +43,8 @@ model Payment {
   paymentSourceId Int
   paymentType     PaymentType     @relation(fields: [paymentTypeId], references: [id]) 
   paymentTypeId   Int      
-  date            DateTime        @default(now())
   recipient       Recipient       @relation(fields: [recipientId], references: [id]) 
   recipientId     Int      
+  date            DateTime        @default(now())
   amount          Float     
 }
