@@ -4,6 +4,10 @@
 - SQLite (database)
 - Typescript (language)
 
+Prisma studio: `npx prisma studio` -> view db in browser
+
+Update db model: `npx prisma migrate dev --name <name>`
+
 
 
 NextJS / Express example: https://github.com/prisma/prisma-examples/tree/latest/typescript/rest-nextjs-express
