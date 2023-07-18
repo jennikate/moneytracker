@@ -173,5 +173,18 @@ app.use(cors())
     res.send(payment)
   });
 
+  /**
+   * DELETE: currently only allow to delete a specific payment via UI
+   */
+  app.delete('/payments/:id', async (req, res) => {
+    const idToNum = Number(req.params.id);
+    const deleteItem = await prisma.payment.delete({
+      where: {
+        id: idToNum,
+      },
+    });
+    res.send(deleteItem);
+  });
+
 const server = app.listen(5000, () => 
 console.log('Server ready at localhost 5000'))
