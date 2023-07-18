@@ -174,6 +174,40 @@ app.use(cors())
   });
 
   /**
+   * UPDATE
+   */
+
+  app.put('/payments/:id', async (req, res) => {
+    const { id } = req.params
+    const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body
+    try {
+      const result = await prisma.payment.update({
+        where: { id: Number(id) },
+        data: {
+          expenseType:  { connect: { id: expenseTypeId } },
+          paymentSource: { connect: { id: paymentSourceId } },
+          paymentType:  { connect: { id: paymentTypeId } },
+          recipient: { connect: { id: recipientId }},
+          date,
+          amount
+        }
+      })
+      res.json(result)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = 'Something has gone wrong'
+      }
+      res.json(errorResponse)
+    } 
+  })
+
+  /**
    * DELETE: currently only allow to delete a specific payment via UI
    */
   app.delete('/payments/:id', async (req, res) => {
