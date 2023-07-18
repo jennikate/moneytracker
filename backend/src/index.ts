@@ -177,6 +177,31 @@ app.use(cors())
    * UPDATE
    */
 
+  app.put('/payment-source/:id', async (req, res) => {
+    const { id } = req.params
+    const { balance, label } = req.body
+    try {
+      const result = await prisma.paymentSource.update({
+        where: { id: Number(id) },
+        data: {
+          balance,
+          label
+        }
+      })
+      res.json(result)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = 'Missing field make sure label & balance exists'
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        errorResponse = 'Payment type already exists'
+      } else {
+        errorResponse = 'Something has gone wrong'
+      }
+      res.json(errorResponse)
+    }  
+  });
+
   app.put('/payments/:id', async (req, res) => {
     const { id } = req.params
     const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body
