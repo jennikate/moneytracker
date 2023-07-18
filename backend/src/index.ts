@@ -136,11 +136,42 @@ app.use(cors())
   /**
    * READ
    */
-  // Get ALL expense types
-  // const expenseTypes = await prisma.expenseType.findMany()
-  // console.log(expenseTypes)
-
-// 
+  app.get('/expense-type', async (req, res) => {
+    const expenseTypes = await prisma.expenseType.findMany()
+    res.send(expenseTypes)
+  });
+  
+  app.get('/payment-source', async (req, res) => {
+    const paymentSources = await prisma.paymentSource.findMany()
+    res.send(paymentSources)
+  });
+  
+  app.get('/payment-type', async (req, res) => {
+    const paymentTypes = await prisma.paymentType.findMany()
+    res.send(paymentTypes)
+  });
+  
+  app.get('/recipient', async (req, res) => {
+    const recipients = await prisma.recipient.findMany()
+    res.send(recipients)
+  });
+  
+  app.get('/payments', async (req, res) => {
+    const payment = await prisma.payment.findMany({
+      include: { expenseType: true, paymentType: true, recipient: true }
+    })
+    res.send(payment)
+  });
+  
+  app.get('/payments/:id', async (req, res) => {
+    const idToNum = Number(req.params.id);
+    const payment = await prisma.payment.findUnique({
+      where: {
+        id: idToNum,
+      },
+    });
+    res.send(payment)
+  });
 
 const server = app.listen(5000, () => 
 console.log('Server ready at localhost 5000'))
