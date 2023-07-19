@@ -168,6 +168,8 @@ app.use(cors())
      * - paymentSource=paymentSource.id
      * - paymentType=paymentType.id
      * - recipient=recipient.id
+     * - dateStart=UTCdate
+     * - dateEnd=UTCdate
      */
 
     const query = req.query;
@@ -175,6 +177,8 @@ app.use(cors())
     const queryPaymentSourceId = Number(query.paymentSource);
     const queryPaymentTypeId = Number(query.paymentType);
     const queryRecipientId = Number(query.recipient);
+    const dateStart = query.dateStart ? new Date(query.dateStart as any) : undefined;
+    const dateEnd = query.dateEnd ? new Date(query.dateEnd as any) : undefined;
 
     const payments = await prisma.payment.findMany({
       where: {
@@ -183,6 +187,9 @@ app.use(cors())
           ...(queryPaymentSourceId ? { paymentSourceId: queryPaymentSourceId } : undefined),
           ...(queryPaymentTypeId ? { paymentTypeId: queryPaymentTypeId } : undefined),
           ...(queryRecipientId ? { recipientId: queryRecipientId } : undefined),
+            OR: [
+              { date: { lte: dateEnd, gte: dateStart } },
+           ],
         }
       },
     })
