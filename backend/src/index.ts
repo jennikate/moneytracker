@@ -107,7 +107,26 @@ app.use(cors())
   app.post('/payment', async (req, res) => {
     const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body
     try {
-      const result = await prisma.payment.create({
+      // Get paymentSource current balance
+      const idToNum = Number(paymentSourceId);
+      // TODO: learn how to type this to a number without the '-null-is-not-assignable-to-type-'
+      const balanceStart: any = await prisma.payment.findUnique({
+        where: {
+          id: idToNum,
+        },
+      });
+      const newBalance = balanceStart.balance - amount;
+
+      // Add new balance
+      const balanceResult = await prisma.paymentSource.update({
+        where: { id: Number(paymentSourceId) },
+        data: {
+          balance: newBalance // if I make this just a number it works, so need to work out how to wait to GET the balance and then use it here
+        }
+      });
+
+      // Add pamyment
+      const payResult = await prisma.payment.create({
         data: {
           expenseType:  { connect: { id: expenseTypeId } },
           paymentSource: { connect: { id: paymentSourceId } },
@@ -116,8 +135,11 @@ app.use(cors())
           date,
           amount
         }
-      })
-      res.json(result)
+      });
+      
+      // TODO concat results and return both not just pay result
+      console.log(payResult)
+      res.json(balanceResult)
     } catch (error) {
       let errorResponse;
       if (error instanceof Prisma.PrismaClientValidationError) {
@@ -147,8 +169,13 @@ app.use(cors())
   });
   
   app.get('/payment-source/:id', async (req, res) => {
-    const paymentSources = await prisma.paymentSource.findMany()
-    res.send(paymentSources)
+    const idToNum = Number(req.params.id);
+    const paymentSource = await prisma.payment.findUnique({
+      where: {
+        id: idToNum,
+      },
+    });
+    res.send(paymentSource)
   });
   
   app.get('/payment-type', async (req, res) => {
@@ -209,8 +236,7 @@ app.use(cors())
   /**
    * UPDATE
    */
-
-  app.put('/payment-source/:id', async (req, res) => {
+  app.put('/payment-source/new-balance/:id', async (req, res) => {
     const { id } = req.params
     const { balance, label } = req.body
     try {
@@ -237,7 +263,8 @@ app.use(cors())
 
   app.put('/payments/:id', async (req, res) => {
     const { id } = req.params
-    const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body
+    const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body;
+
     try {
       const result = await prisma.payment.update({
         where: { id: Number(id) },
