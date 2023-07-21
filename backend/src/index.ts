@@ -146,6 +146,11 @@ app.use(cors())
     res.send(paymentSources)
   });
   
+  app.get('/payment-source/:id', async (req, res) => {
+    const paymentSources = await prisma.paymentSource.findMany()
+    res.send(paymentSources)
+  });
+  
   app.get('/payment-type', async (req, res) => {
     const paymentTypes = await prisma.paymentType.findMany()
     res.send(paymentTypes)
@@ -157,10 +162,38 @@ app.use(cors())
   });
   
   app.get('/payments', async (req, res) => {
-    const payment = await prisma.payment.findMany({
-      include: { expenseType: true, paymentType: true, recipient: true }
+    /**
+     * potential query's
+     * - expense=expenseType.id
+     * - paymentSource=paymentSource.id
+     * - paymentType=paymentType.id
+     * - recipient=recipient.id
+     * - dateStart=UTCdate
+     * - dateEnd=UTCdate
+     */
+
+    const query = req.query;
+    const queryExpenseTypeId = Number(query.expense);
+    const queryPaymentSourceId = Number(query.paymentSource);
+    const queryPaymentTypeId = Number(query.paymentType);
+    const queryRecipientId = Number(query.recipient);
+    const dateStart = query.dateStart ? new Date(query.dateStart as any) : undefined;
+    const dateEnd = query.dateEnd ? new Date(query.dateEnd as any) : undefined;
+
+    const payments = await prisma.payment.findMany({
+      where: {
+        AND: {
+          ...(queryExpenseTypeId ? { expenseTypeId: queryExpenseTypeId } : undefined),
+          ...(queryPaymentSourceId ? { paymentSourceId: queryPaymentSourceId } : undefined),
+          ...(queryPaymentTypeId ? { paymentTypeId: queryPaymentTypeId } : undefined),
+          ...(queryRecipientId ? { recipientId: queryRecipientId } : undefined),
+            OR: [
+              { date: { lte: dateEnd, gte: dateStart } },
+           ],
+        }
+      },
     })
-    res.send(payment)
+    res.send(payments)
   });
   
   app.get('/payments/:id', async (req, res) => {
