@@ -8,12 +8,49 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// async function main() {
-  // ... you will write your Prisma Client queries here
+  // FUNCTIONS (to move to own files?)
+  const getSourceBalance = async (id: string) => {
+    const idToNum = Number(id);
+    const paymentSource = await prisma.paymentSource.findUnique({
+      where: {
+        id: idToNum,
+      },
+    });
+    return(paymentSource);
+  }
   
   /**
    * CREATE
    */
+
+  app.post('/payment-source/desposit/:id', async (req, res) => {
+    const depositAmt = Number(req.body.balance);
+    const paymentSource: any = await getSourceBalance(req.params.id);
+    const newBalance: number = paymentSource ? paymentSource.balance + depositAmt : depositAmt;
+
+    try {
+      const response = await prisma.paymentSource.update({
+        where: { id: Number(req.params.id) },
+        data: {
+          balance: newBalance
+        }
+      });
+
+      res.json(response)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = 'Something has gone wrong'
+      }
+      res.json(errorResponse)
+    }
+  });
+
   app.post('/expense-type', async (req, res) => {
     const { label } = req.body
     
@@ -106,8 +143,19 @@ app.use(cors())
 
   app.post('/payment', async (req, res) => {
     const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body
+    const paymentSource: any = await getSourceBalance(paymentSourceId);
+    const newBalance: number = paymentSource ? paymentSource.balance - amount : amount;
     try {
-      const result = await prisma.payment.create({
+      // Add new balance
+      await prisma.paymentSource.update({
+        where: { id: Number(paymentSourceId) },
+        data: {
+          balance: newBalance
+        }
+      });
+
+      // Add pamyment
+      await prisma.payment.create({
         data: {
           expenseType:  { connect: { id: expenseTypeId } },
           paymentSource: { connect: { id: paymentSourceId } },
@@ -116,8 +164,11 @@ app.use(cors())
           date,
           amount
         }
-      })
-      res.json(result)
+      });
+      
+      // TODO improve response
+      // TODO improve error handling
+      res.json('success')
     } catch (error) {
       let errorResponse;
       if (error instanceof Prisma.PrismaClientValidationError) {
@@ -131,7 +182,6 @@ app.use(cors())
       res.json(errorResponse)
     } 
   })
-
 
   /**
    * READ
@@ -147,8 +197,13 @@ app.use(cors())
   });
   
   app.get('/payment-source/:id', async (req, res) => {
-    const paymentSources = await prisma.paymentSource.findMany()
-    res.send(paymentSources)
+    const idToNum = Number(req.params.id);
+    const paymentSource = await prisma.payment.findUnique({
+      where: {
+        id: idToNum,
+      },
+    });
+    res.send(paymentSource)
   });
   
   app.get('/payment-type', async (req, res) => {
@@ -209,8 +264,7 @@ app.use(cors())
   /**
    * UPDATE
    */
-
-  app.put('/payment-source/:id', async (req, res) => {
+  app.put('/payment-source/new-balance/:id', async (req, res) => {
     const { id } = req.params
     const { balance, label } = req.body
     try {
@@ -237,7 +291,8 @@ app.use(cors())
 
   app.put('/payments/:id', async (req, res) => {
     const { id } = req.params
-    const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body
+    const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body;
+
     try {
       const result = await prisma.payment.update({
         where: { id: Number(id) },
