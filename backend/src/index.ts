@@ -22,6 +22,35 @@ app.use(cors())
   /**
    * CREATE
    */
+
+  app.post('/payment-source/desposit/:id', async (req, res) => {
+    const depositAmt = Number(req.body.balance);
+    const paymentSource: any = await getSourceBalance(req.params.id);
+    const newBalance: number = paymentSource ? paymentSource.balance + depositAmt : depositAmt;
+
+    try {
+      const response = await prisma.paymentSource.update({
+        where: { id: Number(req.params.id) },
+        data: {
+          balance: newBalance
+        }
+      });
+
+      res.json(response)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = 'Something has gone wrong'
+      }
+      res.json(errorResponse)
+    }
+  });
+
   app.post('/expense-type', async (req, res) => {
     const { label } = req.body
     
@@ -121,7 +150,7 @@ app.use(cors())
       await prisma.paymentSource.update({
         where: { id: Number(paymentSourceId) },
         data: {
-          balance: newBalance // if I make this just a number it works, so need to work out how to wait to GET the balance and then use it here
+          balance: newBalance
         }
       });
 
@@ -153,7 +182,6 @@ app.use(cors())
       res.json(errorResponse)
     } 
   })
-
 
   /**
    * READ
