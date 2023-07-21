@@ -10,7 +10,10 @@ Update db model: `npx prisma migrate dev --name <name>`
 ## Frontend
 
 ### v1 - React
-Created first FE with React 18
+Created first FE with 
+- React 18
+- React Router 6
+- Webpack 5
 
 ### Future plans
 Aim to replicate FE with different frameworks/languages/libraries for practice
