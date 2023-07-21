@@ -8,8 +8,16 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// async function main() {
-  // ... you will write your Prisma Client queries here
+  // FUNCTIONS (to move to own files?)
+  const getSourceBalance = async (id: string) => {
+    const idToNum = Number(id);
+    const paymentSource = await prisma.paymentSource.findUnique({
+      where: {
+        id: idToNum,
+      },
+    });
+    return(paymentSource);
+  }
   
   /**
    * CREATE
@@ -106,19 +114,11 @@ app.use(cors())
 
   app.post('/payment', async (req, res) => {
     const { expenseTypeId, paymentSourceId, paymentTypeId, recipientId, date, amount } = req.body
+    const paymentSource: any = await getSourceBalance(paymentSourceId);
+    const newBalance: number = paymentSource ? paymentSource.balance - amount : amount;
     try {
-      // Get paymentSource current balance
-      const idToNum = Number(paymentSourceId);
-      // TODO: learn how to type this to a number without the '-null-is-not-assignable-to-type-'
-      const balanceStart: any = await prisma.payment.findUnique({
-        where: {
-          id: idToNum,
-        },
-      });
-      const newBalance = balanceStart.balance - amount;
-
       // Add new balance
-      const balanceResult = await prisma.paymentSource.update({
+      await prisma.paymentSource.update({
         where: { id: Number(paymentSourceId) },
         data: {
           balance: newBalance // if I make this just a number it works, so need to work out how to wait to GET the balance and then use it here
@@ -126,7 +126,7 @@ app.use(cors())
       });
 
       // Add pamyment
-      const payResult = await prisma.payment.create({
+      await prisma.payment.create({
         data: {
           expenseType:  { connect: { id: expenseTypeId } },
           paymentSource: { connect: { id: paymentSourceId } },
@@ -137,9 +137,9 @@ app.use(cors())
         }
       });
       
-      // TODO concat results and return both not just pay result
-      console.log(payResult)
-      res.json(balanceResult)
+      // TODO improve response
+      // TODO improve error handling
+      res.json('success')
     } catch (error) {
       let errorResponse;
       if (error instanceof Prisma.PrismaClientValidationError) {
