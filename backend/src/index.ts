@@ -75,12 +75,13 @@ app.use(cors())
   });
 
   app.post('/payment-source', async (req, res) => {
-    const { balance, label } = req.body
+    const { balance, label, paymentTypeId } = req.body
     try {
       const result = await prisma.paymentSource.create({
         data: {
           balance,
-          label
+          label,
+          paymentTypeId,
         }
       })
       res.json(result)
@@ -120,11 +121,12 @@ app.use(cors())
   });
 
   app.post('/recipient', async (req, res) => {
-    const { name } = req.body
+    const { name, expenseTypeId } = req.body
     try {
       const result = await prisma.recipient.create({
         data: {
-          name
+          name,
+          expenseTypeId
         }
       })
       res.json(result)
@@ -202,6 +204,9 @@ app.use(cors())
       where: {
         id: idToNum,
       },
+      include: {
+        paymentSource: true
+      }
     });
     res.send(paymentSource)
   });
@@ -213,6 +218,19 @@ app.use(cors())
   
   app.get('/recipient', async (req, res) => {
     const recipients = await prisma.recipient.findMany()
+    res.send(recipients)
+  });
+
+  app.get('/recipient/:id', async (req, res) => {
+    const idToNum = Number(req.params.id);
+    const recipients = await prisma.recipient.findUnique({
+      where: {
+        id: idToNum
+      },
+      include: {
+        defaultExpenseType: true
+      }
+    })
     res.send(recipients)
   });
   
@@ -247,6 +265,12 @@ app.use(cors())
            ],
         }
       },
+      include: {
+        expenseType: true,
+        paymentSource: true,
+        paymentType: true,
+        recipient: true
+      }
     })
     res.send(payments)
   });
@@ -257,6 +281,12 @@ app.use(cors())
       where: {
         id: idToNum,
       },
+      include: {
+        expenseType: true,
+        paymentSource: true,
+        paymentType: true,
+        recipient: true
+      }
     });
     res.send(payment)
   });
@@ -332,6 +362,16 @@ app.use(cors())
     });
     res.send(deleteItem);
   });
+
+  app.delete('/recipient/:id', async (req, res) => {
+    const idToNum = Number(req.params.id);
+    const deleteItem = await prisma.recipient.delete({
+      where: {
+        id: idToNum,
+      },
+    });
+    res.send(deleteItem);
+  })
 
 const server = app.listen(5000, () => 
 console.log('Server ready at localhost 5000'))
