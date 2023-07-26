@@ -11,28 +11,34 @@ datasource db {
 }
 
 model ExpenseType {
-  id        Int          @id @default(autoincrement())
-  label     String       @unique
-  payments  Payment[]
+  id          Int          @id @default(autoincrement())
+  label       String       @unique
+  payments    Payment[]
+  recipients  Recipient[]
 }
 
 model PaymentSource {
-  id        Int           @id @default(autoincrement())
-  balance   Float
-  label     String        @unique
-  payments  Payment[]
+  id                     Int               @id @default(autoincrement())
+  balance                Float
+  label                  String            @unique
+  defaultpaymentType     PaymentType?      @relation(fields: [paymentTypeId], references: [id]) 
+  paymentTypeId          Int? 
+  payments               Payment[]
 }
 
 model PaymentType {
-  id        Int           @id @default(autoincrement())
-  label     String        @unique
-  payments  Payment[]
+  id              Int           @id @default(autoincrement())
+  label           String        @unique
+  payments        Payment[]
+  paymentSources  PaymentSource[]
 }
 
 model Recipient {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique
-  payments    Payment[]
+  id                  Int           @id @default(autoincrement())
+  defaultExpenseType  ExpenseType   @relation(fields: [expenseTypeId], references: [id])
+  expenseTypeId       Int  
+  name                String        @unique
+  payments            Payment[]
 }
 
 model Payment {

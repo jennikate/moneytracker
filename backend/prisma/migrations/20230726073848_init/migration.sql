@@ -8,7 +8,9 @@ CREATE TABLE "ExpenseType" (
 CREATE TABLE "PaymentSource" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "balance" REAL NOT NULL,
-    "label" TEXT NOT NULL
+    "label" TEXT NOT NULL,
+    "paymentTypeId" INTEGER,
+    CONSTRAINT "PaymentSource_paymentTypeId_fkey" FOREIGN KEY ("paymentTypeId") REFERENCES "PaymentType" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -20,7 +22,9 @@ CREATE TABLE "PaymentType" (
 -- CreateTable
 CREATE TABLE "Recipient" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "name" TEXT NOT NULL
+    "expenseTypeId" INTEGER,
+    "name" TEXT NOT NULL,
+    CONSTRAINT "Recipient_expenseTypeId_fkey" FOREIGN KEY ("expenseTypeId") REFERENCES "ExpenseType" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -29,11 +33,11 @@ CREATE TABLE "Payment" (
     "expenseTypeId" INTEGER NOT NULL,
     "paymentSourceId" INTEGER NOT NULL,
     "paymentTypeId" INTEGER NOT NULL,
-    "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "recipientId" INTEGER NOT NULL,
+    "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "amount" REAL NOT NULL,
     CONSTRAINT "Payment_expenseTypeId_fkey" FOREIGN KEY ("expenseTypeId") REFERENCES "ExpenseType" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "Payment_expenseTypeId_fkey" FOREIGN KEY ("expenseTypeId") REFERENCES "PaymentSource" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Payment_paymentSourceId_fkey" FOREIGN KEY ("paymentSourceId") REFERENCES "PaymentSource" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Payment_paymentTypeId_fkey" FOREIGN KEY ("paymentTypeId") REFERENCES "PaymentType" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
     CONSTRAINT "Payment_recipientId_fkey" FOREIGN KEY ("recipientId") REFERENCES "Recipient" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
