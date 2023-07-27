@@ -8,7 +8,7 @@ module.exports = (argv) => {
   const devMode = argv.mode !== 'production';
 
   return {
-    entry: ['./src/index.js', './src/assets/main.scss'],
+    entry: ['./src/index.js', './src/assets/css/main.scss'],
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[contenthash].js',

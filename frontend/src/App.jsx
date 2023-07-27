@@ -1,8 +1,8 @@
-import React from 'react';
+import Main from './layout/Main';
 
 function App() {
   return (
-    <h1>Basic setup</h1>
+    <Main />
   );
 }
 

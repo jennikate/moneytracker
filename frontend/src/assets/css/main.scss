@@ -1,0 +1,71 @@
+@use 'reset.scss';
+
+/* ================
+   LAYOUT
+================ */
+
+html,
+body {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  min-height: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .wrapper {
+    background-color: white;
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    transition: 1s ease;
+  }
+}
+
+.sidebar {
+  width: 30%;
+  height: 100%;
+  background-color: #54a;
+  transition: 1s ease;
+  position: relative;
+  padding: 50px 25px;
+
+  &_small {
+    width: 2%;
+  }
+}
+
+.main-content {
+  width: 70%;
+  height: 100%;
+  background-color: #ccc;
+  transition: 1s ease;
+  padding: 50px;
+
+  &_large {
+    width: 98%;
+  }
+}
+
+
+button {
+  position: absolute;
+  border: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, .3);
+  left: 100%;
+  top: 2rem;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.hidden {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
