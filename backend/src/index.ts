@@ -45,7 +45,7 @@ app.use(cors())
         errorResponse = error.meta
       } else {
         console.log(error)
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     }
@@ -68,7 +68,7 @@ app.use(cors())
       } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         errorResponse = 'Expense type already exists'
       } else {
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     } 
@@ -92,7 +92,7 @@ app.use(cors())
       } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         errorResponse = 'Payment type already exists'
       } else {
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     }  
@@ -114,7 +114,7 @@ app.use(cors())
       } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         errorResponse = 'Payment type already exists'
       } else {
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     }  
@@ -137,7 +137,7 @@ app.use(cors())
       } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         errorResponse = 'Payment type already exists'
       } else {
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     } 
@@ -179,11 +179,39 @@ app.use(cors())
         errorResponse = error.meta
       } else {
         console.log(error)
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     } 
-  })
+  });
+
+  app.post('/payment-source/withdraw/:id', async (req, res) => {
+    const depositAmt = Number(req.body.balance);
+    const paymentSource: any = await getSourceBalance(req.params.id);
+    const newBalance: number = paymentSource ? paymentSource.balance - depositAmt : depositAmt;
+
+    try {
+      const response = await prisma.paymentSource.update({
+        where: { id: Number(req.params.id) },
+        data: {
+          balance: newBalance
+        }
+      });
+
+      res.json(response)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = error
+      }
+      res.json(errorResponse)
+    }
+  });
 
   /**
    * READ
@@ -313,7 +341,7 @@ app.use(cors())
       } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
         errorResponse = 'Payment type already exists'
       } else {
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     }  
@@ -344,7 +372,7 @@ app.use(cors())
         errorResponse = error.meta
       } else {
         console.log(error)
-        errorResponse = 'Something has gone wrong'
+        errorResponse = error
       }
       res.json(errorResponse)
     } 
@@ -353,25 +381,126 @@ app.use(cors())
   /**
    * DELETE: currently only allow to delete a specific payment via UI
    */
-  app.delete('/payments/:id', async (req, res) => {
+  app.delete('/expense-type/:id', async (req, res) => {
     const idToNum = Number(req.params.id);
-    const deleteItem = await prisma.payment.delete({
-      where: {
-        id: idToNum,
-      },
-    });
-    res.send(deleteItem);
+
+    try {
+      const deleteItem = await prisma.expenseType.delete({
+        where: {
+          id: idToNum,
+        },
+      });
+
+      res.json(deleteItem)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = error
+      }
+      res.json(errorResponse)
+    }
+  });
+
+  app.delete('/payment-source/:id', async (req, res) => {
+    const idToNum = Number(req.params.id);
+    try {
+      const deleteItem = await prisma.paymentSource.delete({
+        where: {
+          id: idToNum,
+        },
+      });
+
+      res.json(deleteItem)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = error
+      }
+      res.json(errorResponse)
+    }
+  });
+
+  app.delete('/payment-type/:id', async (req, res) => {
+    const idToNum = Number(req.params.id);
+    try {
+      const deleteItem = await prisma.paymentType.delete({
+        where: {
+          id: idToNum,
+        },
+      });
+
+      res.json(deleteItem)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = error
+      }
+      res.json(errorResponse)
+    }
   });
 
   app.delete('/recipient/:id', async (req, res) => {
     const idToNum = Number(req.params.id);
-    const deleteItem = await prisma.recipient.delete({
-      where: {
-        id: idToNum,
-      },
-    });
-    res.send(deleteItem);
-  })
+    try {
+      const deleteItem = await prisma.recipient.delete({
+        where: {
+          id: idToNum,
+        },
+      });
+
+      res.json(deleteItem)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = error
+      }
+      res.json(errorResponse)
+    }
+  });
+
+  app.delete('/payments/:id', async (req, res) => {
+    const idToNum = Number(req.params.id);
+    try {
+      const deleteItem = await prisma.recipient.delete({
+        where: {
+          id: idToNum,
+        },
+      });
+
+      res.json(deleteItem)
+    } catch (error) {
+      let errorResponse;
+      if (error instanceof Prisma.PrismaClientValidationError) {
+        errorResponse = error.message
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+        errorResponse = error.meta
+      } else {
+        console.log(error)
+        errorResponse = error
+      }
+      res.json(errorResponse)
+    }
+  });
 
 const server = app.listen(5000, () => 
 console.log('Server ready at localhost 5000'))
