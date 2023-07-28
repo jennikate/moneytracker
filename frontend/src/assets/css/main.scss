@@ -26,17 +26,19 @@ body {
 }
 
 .sidebar {
+  position: absolute;
+  background-color: red;
   width: 30%;
   height: 100%;
-  background-color: #54a;
-  transition: 1s ease;
-  position: relative;
+  transition: 1s;
+  left: 0;
   padding: 50px 25px;
 
   &_small {
-    width: 2%;
+    transition: 1s;
+    left: -28%;
   }
-}
+} 
 
 .main-content {
   width: 70%;
@@ -44,9 +46,12 @@ body {
   background-color: #ccc;
   transition: 1s ease;
   padding: 50px;
+  position: absolute;
+  left: 30%;
 
   &_large {
     width: 98%;
+    left: 2%;
   }
 }
 
@@ -64,11 +69,7 @@ button {
   cursor: pointer;
 }
 
-.sidebar-content {
-  position: absolute;
-  background-color: red;
-  left: 0;
-}
+
 
 .hidden {
   position: absolute !important;
