@@ -64,6 +64,12 @@ button {
   cursor: pointer;
 }
 
+.sidebar-content {
+  position: absolute;
+  background-color: red;
+  left: 0;
+}
+
 .hidden {
   position: absolute !important;
   top: -9999px !important;

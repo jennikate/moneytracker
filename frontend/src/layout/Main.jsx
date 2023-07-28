@@ -17,8 +17,10 @@ function Main() {
           >
             {sidebarOpen ? '<' : '>'}
           </button>
-          <div className={sidebarOpen ? 'visible' : 'hidden'}>
+          {/* <div className={sidebarOpen ? 'visible' : 'hidden'}> */}
+          <div className="sidebar-content">
             sidebar content
+            {/* </div> */}
           </div>
         </div>
         <div className={sidebarOpen ? 'main-content' : 'main-content main-content_large'}>
