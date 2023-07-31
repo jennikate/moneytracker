@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Sidebar from './Sidebar';
 
-function Main() {
+function Page({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleSidebarButtonClick = () => {
@@ -12,23 +13,22 @@ function Main() {
       <div className="wrapper">
         <div className={sidebarOpen ? 'sidebar' : 'sidebar sidebar_small'}>
           <button
+            className="sidebar-button"
             type="button"
             onClick={handleSidebarButtonClick}
           >
             {sidebarOpen ? '<' : '>'}
           </button>
-          {/* <div className={sidebarOpen ? 'visible' : 'hidden'}> */}
           <div className="sidebar-content">
-            sidebar content
-            {/* </div> */}
+            <Sidebar />
           </div>
         </div>
         <div className={sidebarOpen ? 'main-content' : 'main-content main-content_large'}>
-          content
+          {children}
         </div>
       </div>
     </main>
   );
 }
 
-export default Main;
+export default Page;

@@ -1,0 +1,21 @@
+@use '_colours.scss';
+
+/* ================
+   BUTTONS & LINKS
+================ */
+
+.link-navigation {
+  border: 1px solid colours.$brand-primary;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  padding: 1rem;
+  margin: 1rem;
+  display: block;
+  text-align: center;
+  max-width: 75%;
+
+  &:hover {
+    background-color: colours.$brand-primary;
+    color: colours.$body-text;
+  }
+}

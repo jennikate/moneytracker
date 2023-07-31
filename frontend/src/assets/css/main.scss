@@ -1,5 +1,8 @@
 @use 'reset.scss';
+@use 'components.scss';
 @use '_colours.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 
 /* ================
@@ -9,6 +12,8 @@
 html,
 body {
   height: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: colours.$body-text;
 }
 
 .container {
@@ -29,6 +34,7 @@ body {
 .sidebar {
   position: absolute;
   background-color: colours.$brand-secondary;
+  color: colours.$contrast-text;
   width: 30%;
   height: 100%;
   transition: 1s;
@@ -57,7 +63,7 @@ body {
 }
 
 
-button {
+.sidebar-button {
   position: absolute;
   border: none;
   height: 40px;
@@ -70,4 +76,5 @@ button {
   transform: translateX(-50%);
   cursor: pointer;
   background-color: colours.$brand-primary;
+  color: colours.$body-text;
 }
