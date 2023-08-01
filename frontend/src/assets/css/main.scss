@@ -14,6 +14,14 @@ body {
   height: 100%;
   font-family: 'Roboto', sans-serif;
   color: colours.$body-text;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
 }
 
 .container {
@@ -62,6 +70,13 @@ body {
   }
 }
 
+.logo {
+  color: colours.$brand-secondary;
+  font-weight: bold;
+  position: absolute;
+  left: 85%;
+  top: 20px;
+}
 
 .sidebar-button {
   position: absolute;

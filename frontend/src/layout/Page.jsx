@@ -24,6 +24,7 @@ function Page({ children }) {
           </div>
         </div>
         <div className={sidebarOpen ? 'main-content' : 'main-content main-content_large'}>
+          <h2 className="logo">Money Tracker</h2>
           {children}
         </div>
       </div>
