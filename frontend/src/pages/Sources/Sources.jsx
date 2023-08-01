@@ -1,14 +1,16 @@
 import React from 'react';
 
+import '../../assets/css/forms.scss';
+import FormExpenseType from './FormExpenseType';
+import FormRecipient from './FormRecipient';
+
 function Sources() {
   console.log('sources');
   return (
     <>
-      <h1>Sources</h1>
-      <h2>Sources</h2>
-      <h3>Sources</h3>
-      <h4>Sources</h4>
-      <p>Sources</p>
+      <h1>Add config</h1>
+      <FormExpenseType />
+      <FormRecipient />
     </>
   );
 }
