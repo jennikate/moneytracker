@@ -1,24 +1,24 @@
 import React from 'react';
 
-function FormRecipient() {
+function FormPaymentSource() {
   return (
     <form className="form form_horizontal">
-      <h2>Recipient</h2>
+      <h2>Payment Source</h2>
 
       <div className="form-field">
-        <label htmlFor="recipient">
-          Enter a recipient
+        <label htmlFor="paymentSource">
+          Enter a source
           {' '}
-          <span className="hint">e.g. Moka, Waitrose, Boots</span>
+          <span className="hint">e.g. Metro, HSBC</span>
         </label>
         <input type="text" id="recipient" />
       </div>
 
       <div className="form-field">
-        <label htmlFor="defaultExpenseType">
-          Select a default expense type
+        <label htmlFor="defaultPaymentType">
+          Select a default payment type
         </label>
-        <select type="text" id="defaultExpenseType" className="select">
+        <select type="text" id="defaultPaymentType" className="select">
           <option disabled>Select an option</option>
           <option value="test">Test option</option>
         </select>
@@ -34,4 +34,4 @@ function FormRecipient() {
   );
 }
 
-export default FormRecipient;
+export default FormPaymentSource;

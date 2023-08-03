@@ -11,12 +11,6 @@ select,
   margin: 10px 0;
 }
 
-// width: 0; 
-// height: 0; 
-// border-left: 20px solid transparent;
-// border-right: 20px solid transparent;
-
-// border-top: 20px solid #f00;
 
 .select {
   cursor: pointer;
@@ -40,6 +34,16 @@ select,
   &:hover {
     background-color: colours.$brand-primary-deep;
     color: colours.$contrast-text;
+  }
+
+  &:active {
+    color: colours.$brand-primary;
+  }
+
+  &.disabled {
+    background-color: colours.$disabled;
+    cursor: default;
+    pointer-events: none;
   }
 }
 

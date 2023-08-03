@@ -1,8 +1,10 @@
 import React from 'react';
-
-import '../../assets/css/forms.scss';
 import FormExpenseType from './FormExpenseType';
 import FormRecipient from './FormRecipient';
+import FormPaymentType from './FormPaymentType';
+import FormPaymentSource from './FormPaymentSource';
+
+import '../../assets/css/forms.scss';
 
 function Sources() {
   console.log('sources');
@@ -11,6 +13,8 @@ function Sources() {
       <h1>Add config</h1>
       <FormExpenseType />
       <FormRecipient />
+      <FormPaymentType />
+      <FormPaymentSource />
     </>
   );
 }
