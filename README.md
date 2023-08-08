@@ -15,12 +15,15 @@ Created first FE with
 - React Router 6
 - Webpack 5
 
+First FE is not responsive as current usecase is only for widescreen desktop.
+
 ### Future plans
-Aim to replicate FE with different frameworks/languages/libraries for practice
+Aim to replicate FE with different frameworks/languages/libraries for practice, including making responsive and a native mobile version
 
 TODO:
 - NextJS
 - Typescript
+- React Native
 
 
 

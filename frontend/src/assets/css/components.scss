@@ -1,0 +1,45 @@
+@use '_colours.scss';
+
+/* ================
+   LINKS
+================ */
+
+.link-navigation {
+  border: 1px solid colours.$brand-primary;
+  border-radius: 5px;
+  font-size: 1.25rem;
+  padding: 1rem;
+  margin: 1rem;
+  display: block;
+  text-align: center;
+  max-width: 75%;
+
+  &:hover {
+    background-color: colours.$brand-primary;
+    color: colours.$body-text;
+  }
+}
+
+/* ================
+   HEADINGS
+================ */
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+h4 {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
