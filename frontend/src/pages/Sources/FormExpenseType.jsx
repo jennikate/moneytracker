@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { API_BASE } from '../../constants/ApiConstants';
+import PostSource from '../../utils/PostSource';
 
 function FormExpenseType() {
   const [formData, setFormData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [typeAdded, setTypeAdded] = useState();
 
   const handleChange = (e) => {
     setFormData({ [e.target.id]: e.target.value.toLowerCase() });
@@ -12,18 +15,22 @@ function FormExpenseType() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    try {
-      const response = await axios.post('http://localhost:5000/expense-type', {
-        label: formData.expenseType
-      });
+    const response = await PostSource({
+      dataToSubmit: { label: formData.expenseType },
+      setIsLoading,
+      url: `${API_BASE}/expense-type`
+    });
+    
+    // handle if resonse returns errors
+    if (response.error) {
+      console.log('error')
+    }
 
-      console.log(response);
+    // handle if response returns success
+    if (!response.error) {
       setShowConfirmation(true);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
+      setFormData(null);
+      setTypeAdded(response?.data?.label);
     }
   };
 
@@ -34,7 +41,7 @@ function FormExpenseType() {
   if (showConfirmation) {
     return (
       <>
-        <h2>{formData.expenseType} added</h2>
+        <h2>{typeAdded} added</h2>
         <button type="button" onClick={handleCloseConfirmationPanelClick}>
           Add another expense type
         </button>

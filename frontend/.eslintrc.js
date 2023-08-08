@@ -18,6 +18,7 @@ module.exports = {
   ],
   rules: {
     'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
-    'comma-dangle': ['error', 'never']
+    'comma-dangle': ['error', 'never'],
+    'react/jsx-one-expression-per-line': [{ allow: 'literal' }]
   }
 };
