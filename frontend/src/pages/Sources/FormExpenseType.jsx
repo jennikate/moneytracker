@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { API_BASE } from '../../constants/ApiConstants';
 import PostSource from '../../utils/PostSource';
 
@@ -20,10 +19,10 @@ function FormExpenseType() {
       setIsLoading,
       url: `${API_BASE}/expense-type`
     });
-    
+
     // handle if resonse returns errors
     if (response.error) {
-      console.log('error')
+      console.log('error');
     }
 
     // handle if response returns success
