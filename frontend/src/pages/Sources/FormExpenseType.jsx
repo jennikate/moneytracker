@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { API_BASE } from '../../constants/ApiConstants';
 import PostSource from '../../utils/PostSource';
 import ConfirmationPanel from '../../components/ConfirmationPanel';
+import SubmitButton from '../../components/SubmitButton';
 
 function FormExpenseType() {
   const [formData, setFormData] = useState();
@@ -15,8 +16,12 @@ function FormExpenseType() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData) {
+      return;
+    }
+
     const response = await PostSource({
-      dataToSubmit: { label: formData.expenseType },
+      dataToSubmit: { label: formData?.expenseType },
       setIsLoading,
       url: `${API_BASE}/expense-type`
     });
@@ -54,13 +59,10 @@ function FormExpenseType() {
             </label>
             <input type="text" id="expenseType" onChange={handleChange} />
           </div>
-          <button
-            type="submit"
-            className={isLoading ? 'button button-submit disabled' : 'button button-submit'}
-            disabled={isLoading}
-          >
-            Save expense type
-          </button>
+          <SubmitButton
+            isLoading={isLoading}
+            label="Save expense type"
+          />
         </>
       )}
     </form>
