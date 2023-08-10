@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { API_BASE } from '../../constants/ApiConstants';
 import PostSource from '../../utils/PostSource';
+import ConfirmationPanel from '../../components/ConfirmationPanel';
 
 function FormExpenseType() {
   const [formData, setFormData] = useState();
@@ -33,39 +34,35 @@ function FormExpenseType() {
     }
   };
 
-  const handleCloseConfirmationPanelClick = () => {
-    setShowConfirmation(false);
-  };
-
-  if (showConfirmation) {
-    return (
-      <>
-        <h2>{typeAdded} added</h2>
-        <button type="button" onClick={handleCloseConfirmationPanelClick}>
-          Add another expense type
-        </button>
-      </>
-    );
-  }
-
   return (
     <form className="form form_horizontal" onSubmit={handleSubmit}>
       <h2>Expense type</h2>
-      <div className="form-field">
-        <label htmlFor="expenseType">
-          Enter a type
-          {' '}
-          <span className="hint">e.g. coffee, groceries, take-away</span>
-        </label>
-        <input type="text" id="expenseType" onChange={handleChange} />
-      </div>
-      <button
-        type="submit"
-        className={isLoading ? 'button button-submit disabled' : 'button button-submit'}
-        disabled={isLoading}
-      >
-        Save expense type
-      </button>
+      {showConfirmation && (
+        <ConfirmationPanel
+          setShowConfirmation={setShowConfirmation}
+          itemAdded={typeAdded}
+          type="expense type"
+        />
+      )}
+      {!showConfirmation && (
+        <>
+          <div className="form-field">
+            <label htmlFor="expenseType">
+              Enter a type
+              {' '}
+              <span className="hint">e.g. coffee, groceries, take-away</span>
+            </label>
+            <input type="text" id="expenseType" onChange={handleChange} />
+          </div>
+          <button
+            type="submit"
+            className={isLoading ? 'button button-submit disabled' : 'button button-submit'}
+            disabled={isLoading}
+          >
+            Save expense type
+          </button>
+        </>
+      )}
     </form>
   );
 }

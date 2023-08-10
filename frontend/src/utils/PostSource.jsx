@@ -8,7 +8,7 @@ const PostSource = async ({ dataToSubmit, setIsLoading, url }) => {
     apiResponse = await axios.post(url, dataToSubmit);
   } catch (error) {
     console.log(error);
-    apiResponse = { error: true }
+    apiResponse = { error: true };
   } finally {
     setIsLoading(false);
   }

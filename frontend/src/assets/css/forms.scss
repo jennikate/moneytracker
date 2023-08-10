@@ -47,6 +47,7 @@ select,
   }
 }
 
+
 label {
   font-size: 1.12rem;
 
@@ -79,5 +80,16 @@ label {
     .button-submit {
       display: inline-block;
     }
+  }
+}
+
+.confirmation-panel {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+
+  .confirmation-text {
+    font-size: 1.5rem;
+    margin: 10px 10px 0 10px; // matches the button
   }
 }
