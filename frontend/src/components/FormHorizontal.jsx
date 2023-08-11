@@ -60,10 +60,27 @@ function FormHorizontal({
             {
               fields.map((field) => (
                 <div key={field.id}>
-                  <label htmlFor={field.id}>
-                    {`${field.label} ${field.hint}`}
-                  </label>
-                  <input type={field.type} id={field.id} onChange={handleChange} />
+                  {field.inputType === 'text' && (
+                  <>
+                    <label htmlFor={field.id}>
+                      {`${field.label} ${field.hint}`}
+                    </label>
+                    <input type={field.inputType} id={field.id} onChange={handleChange} />
+                  </>
+                  )}
+                  {field.inputType === 'select' && (
+                  <>
+                    <label htmlFor={field.id}>
+                      {`${field.label} ${field.hint}`}
+                    </label>
+                    <select type="text" id={field.id} className="select" defaultValue="selectOption">
+                      <option disabled value="selectOption">Select an option</option>
+                      {field.options.map((option) => (
+                        <option key={option.id} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                  </>
+                  )}
                 </div>
               ))
             }
