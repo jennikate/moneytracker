@@ -56,22 +56,22 @@ function FormHorizontal({
       )}
       {!showConfirmation && (
         <>
-          <div className="form-field">
+          {/* <div className="form-field"> */}
             {
               fields.map((field) => (
-                <div key={field.id}>
+                <React.Fragment key={field.id}>
                   {field.inputType === 'text' && (
-                  <>
+                  <div className="form-field">
                     <label htmlFor={field.id}>
-                      {`${field.label} ${field.hint}`}
+                      {`${field.label} ${field?.hint || ''}`}
                     </label>
                     <input type={field.inputType} id={field.id} onChange={handleChange} />
-                  </>
+                  </div>
                   )}
                   {field.inputType === 'select' && (
-                  <>
+                  <div className="form-field">
                     <label htmlFor={field.id}>
-                      {`${field.label} ${field.hint}`}
+                      {`${field.label} ${field?.hint || ''}`}
                     </label>
                     <select type="text" id={field.id} className="select" defaultValue="selectOption">
                       <option disabled value="selectOption">Select an option</option>
@@ -79,12 +79,12 @@ function FormHorizontal({
                         <option key={option.id} value={option.value}>{option.label}</option>
                       ))}
                     </select>
-                  </>
+                  </div>
                   )}
-                </div>
+                </React.Fragment>
               ))
             }
-          </div>
+          {/* </div> */}
           <SubmitButton
             isLoading={isLoading}
             label={`Save ${heading.toLowerCase()}`}
