@@ -38,6 +38,7 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 - check what happens on submit of 2 field forms (recipient, payment source)
 - add GET to create options list on the selects
 - finish submit function so all 4 forms submit as expected
-- figure out why the vertical 100% isn't enclosing all the forms (float issue? bt I don't use floats so...)
+- figure out why the vertical 100% isn't enclosing all the forms (position absolute I think is the issue - https://stackoverflow.com/questions/8463666/container-div-not-expanding-to-include-divs-with-absolute-positioning)
+
 - update error messages on backend so it returns as an error
 - handle errors on FE
