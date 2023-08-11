@@ -1,36 +1,34 @@
 import React from 'react';
+import FormHorizontal from '../../components/FormHorizontal';
 
 function FormPaymentSource() {
   return (
-    <form className="form form_horizontal">
-      <h2>Payment Source</h2>
-
-      <div className="form-field">
-        <label htmlFor="paymentSource">
-          Enter a source
-          {' '}
-          <span className="hint">e.g. Metro, HSBC</span>
-        </label>
-        <input type="text" id="recipient" />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="defaultPaymentType">
-          Select a default payment type
-        </label>
-        <select type="text" id="defaultPaymentType" className="select">
-          <option disabled>Select an option</option>
-          <option value="test">Test option</option>
-        </select>
-      </div>
-
-      <button
-        type="submit"
-        className="button button-submit"
-      >
-        Save recipient
-      </button>
-    </form>
+    <FormHorizontal
+      apiUrl="/payment-source"
+      heading="Payment source"
+      fields={
+        [
+          {
+            label: 'Enter a source',
+            hint: 'e.g. Metro, HSBC',
+            inputType: 'text',
+            id: 'source'
+          },
+          {
+            label: 'Select a default payment type',
+            inputType: 'select',
+            id: 'defaultPaymentType',
+            options: [
+              {
+                id: 'optionId',
+                value: 'test',
+                label: 'test'
+              }
+            ]
+          }
+        ]
+      }
+    />
   );
 }
 
