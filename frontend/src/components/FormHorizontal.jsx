@@ -16,7 +16,17 @@ function FormHorizontal({
   const [typeAdded, setTypeAdded] = useState();
 
   const handleChange = (e) => {
-    setFormData({ [e.target.id]: e.target.value.toLowerCase() });
+    let value;
+
+    // Handle converting to a number if it looks like a number (usually for ID)
+    if (Number.isNaN(parseInt(e.target.value, 10))) {
+      value = e.target.value.toLowerCase();
+    } else {
+      value = parseInt(e.target.value, 10);
+    }
+
+    const newItem = { [e.target.id]: value };
+    setFormData({ ...formData, ...newItem });
   };
 
   const handleSubmit = async (e) => {
@@ -73,7 +83,13 @@ function FormHorizontal({
                     <label htmlFor={field.id}>
                       {field.label} <span className="hint">{field?.hint || ''}</span>
                     </label>
-                    <select type="text" id={field.id} className="select" defaultValue="selectOption">
+                    <select
+                      type="text"
+                      id={field.id}
+                      className="select"
+                      defaultValue="selectOption"
+                      onChange={handleChange}
+                    >
                       <option disabled value="selectOption">Select an option</option>
                       {field.options.map((option) => (
                         <option key={option.id} value={option.value}>{option.label}</option>

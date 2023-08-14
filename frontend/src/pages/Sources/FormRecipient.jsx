@@ -1,7 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { API_BASE } from '../../constants/ApiConstants';
 import FormHorizontal from '../../components/FormHorizontal';
 
 function FormRecipient() {
+  const [options, setOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState();
+
+  const getOptionData = async () => {
+    setIsLoading(true);
+    try {
+      const apiResponse = await axios.get(`${API_BASE}/expense-type`);
+      const mappedOptions = apiResponse.data.map((option) => ({
+        id: option.id,
+        value: option.id,
+        label: option.label
+      }));
+      setOptions(mappedOptions);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getOptionData();
+  }, []);
+
+  if (isLoading || options.length < 1) {
+    return (
+      <h1>Loading</h1>
+    );
+  }
+
   return (
     <FormHorizontal
       apiUrl="/recipient"
@@ -12,19 +44,13 @@ function FormRecipient() {
             label: 'Enter a recipient',
             hint: 'e.g. Moka, Waitrose, Boots',
             inputType: 'text',
-            id: 'recipient'
+            id: 'name'
           },
           {
             label: 'Select a default expense type',
             inputType: 'select',
-            id: 'defaultExpenseType',
-            options: [
-              {
-                id: 'optionId',
-                value: 'test',
-                label: 'test'
-              }
-            ]
+            id: 'expenseTypeId',
+            options
           }
         ]
       }
