@@ -13,7 +13,7 @@ function FormPaymentSource() {
       const apiResponse = await axios.get(`${API_BASE}/payment-type`);
       const mappedOptions = apiResponse.data.map((option) => ({
         id: option.id,
-        value: option.label,
+        value: option.id,
         label: option.label
       }));
       setOptions(mappedOptions);
@@ -44,7 +44,7 @@ function FormPaymentSource() {
             label: 'Enter a source',
             hint: 'e.g. Metro, HSBC',
             inputType: 'text',
-            id: 'source'
+            id: 'label'
           },
           {
             label: 'Enter the current balance',
@@ -54,7 +54,7 @@ function FormPaymentSource() {
           {
             label: 'Select a default payment type',
             inputType: 'select',
-            id: 'defaultPaymentType',
+            id: 'paymentTypeId',
             options
           }
         ]

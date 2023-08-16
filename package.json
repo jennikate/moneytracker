@@ -7,7 +7,8 @@
     "ts-node": "^10.9.1"
   },
   "scripts": {
-    "start:server": "ts-node backend/src/index.ts"
+    "start:server": "ts-node backend/src/index.ts",
+    "start:client": "cd ./frontend && npm start"
   },
   "author": "JenniKate Wallace",
   "license": "ISC"
