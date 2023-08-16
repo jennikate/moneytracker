@@ -9,6 +9,10 @@ select,
   display: block;
   padding: 5px;
   margin: 10px 0;
+
+  &:focus {
+    border: 2px solid colours.$brand-focus;
+  }
 }
 
 
@@ -57,40 +61,70 @@ label {
   }
 }
 
+// .sidebar-content {
+//   label {
+//     .hint {
+//       color: colours.$contrast-assistive-text;
+//     }
+//   }
+//   input, select {
+//     border: 1px solid white;
+//   }
+//   form button {
+//     color: green
+//   }
+// }
 
-.form {
-  border: 1px solid colours.$brand-primary;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 20px;
+.sidebar-content {
+  form {
+    background-color: colours.$white;
+    padding: 1.25rem;
 
-  &_horizontal {
-    width: 100%;
+    h2, label, button {
+      color: colours.$black;
+    }
+  }
 
-    input,
-    select {
+}
+
+
+  .form {
+    border: 1px solid colours.$brand-primary;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    &-horizontal {
       width: 100%;
+
+      input,
+      select {
+        width: 100%;
+      }
+
+      .form-field {
+        display: inline-block;
+        margin-right: 20px;
+        width: 350px;
+      }
+
+      .button-submit {
+        display: inline-block;
+      }
     }
 
-    .form-field {
-      display: inline-block;
-      margin-right: 20px;
-      width: 350px;
-    }
-
-    .button-submit {
-      display: inline-block;
+    &-vertical {
+      border: none;
     }
   }
-}
 
-.confirmation-panel {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 20px;
+  .confirmation-panel {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 
-  .confirmation-text {
-    font-size: 1.5rem;
-    margin: 10px 10px 0 10px; // matches the button
+    .confirmation-text {
+      font-size: 1.5rem;
+      margin: 10px 10px 0 10px; // matches the button
+    }
   }
-}
