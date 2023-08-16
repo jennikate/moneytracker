@@ -27,7 +27,6 @@ body {
 .container {
   height: 100%;
   min-height: 100%;
-  height: 100vh;
   display: flex;
   flex-direction: column;
 
@@ -36,6 +35,7 @@ body {
     display: flex;
     align-items: flex-start;
     transition: 1s ease;
+    background-color: colours.$brand-secondary;
   }
 }
 
@@ -61,7 +61,7 @@ body {
   background-color: colours.$white;
   transition: 1s ease;
   padding: 50px;
-  position: absolute;
+  position: relative;
   left: 30%;
 
   &_large {

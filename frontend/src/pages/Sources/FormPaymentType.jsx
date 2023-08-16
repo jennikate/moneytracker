@@ -1,24 +1,22 @@
 import React from 'react';
+import FormHorizontal from '../../components/FormHorizontal';
 
 function FormPaymentType() {
   return (
-    <form className="form form_horizontal">
-      <h2>Payment type</h2>
-      <div className="form-field">
-        <label htmlFor="paymentType">
-          Enter a type
-          {' '}
-          <span className="hint">e.g. cash, credit card</span>
-        </label>
-        <input type="text" id="paymentType" />
-      </div>
-      <button
-        type="submit"
-        className="button button-submit"
-      >
-        Save payment type
-      </button>
-    </form>
+    <FormHorizontal
+      apiUrl="/payment-type"
+      heading="Payment type"
+      fields={
+        [
+          {
+            label: 'Enter a type',
+            hint: 'e.g. cash, credit card',
+            inputType: 'text',
+            id: 'label'
+          }
+        ]
+      }
+    />
   );
 }
 
