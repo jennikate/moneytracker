@@ -9,6 +9,10 @@ select,
   display: block;
   padding: 5px;
   margin: 10px 0;
+
+  &:focus {
+    border: 2px solid colours.$brand-focus;
+  }
 }
 
 

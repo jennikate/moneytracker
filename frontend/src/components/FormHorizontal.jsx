@@ -50,7 +50,7 @@ function FormHorizontal({
     if (!response.error) {
       setShowConfirmation(true);
       setFormData(null);
-      setTypeAdded(response?.data?.label);
+      setTypeAdded(response?.data?.label || response?.data?.name);
     }
   };
 
