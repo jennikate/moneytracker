@@ -5,7 +5,7 @@ import PostSource from '../utils/PostSource';
 import ConfirmationPanel from './ConfirmationPanel';
 import SubmitButton from './SubmitButton';
 
-function FormHorizontal({
+function FormVertical({
   apiUrl,
   fields,
   heading
@@ -55,7 +55,7 @@ function FormHorizontal({
   };
 
   return (
-    <form className="form form-horizontal" onSubmit={handleSubmit}>
+    <form className="form form-vertical" onSubmit={handleSubmit}>
       <h2>{heading}</h2>
       {showConfirmation && (
         <ConfirmationPanel
@@ -111,4 +111,4 @@ function FormHorizontal({
   );
 }
 
-export default FormHorizontal;
+export default FormVertical;

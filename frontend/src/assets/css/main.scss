@@ -24,6 +24,14 @@ body {
   }
 }
 
+.logo {
+  color: colours.$brand-secondary;
+  font-weight: bold;
+  position: absolute;
+  left: 85%;
+  top: 20px;
+}
+
 .container {
   height: 100%;
   min-height: 100%;
@@ -55,6 +63,22 @@ body {
   }
 } 
 
+.sidebar-button {
+  position: absolute;
+  border: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, .3);
+  left: 100%;
+  top: 2rem;
+  padding-left: 0.5rem;
+  transform: translateX(-50%);
+  cursor: pointer;
+  background-color: colours.$brand-primary;
+  color: colours.$body-text;
+}
+
 .main-content {
   width: 70%;
   height: 100%;
@@ -70,26 +94,8 @@ body {
   }
 }
 
-.logo {
-  color: colours.$brand-secondary;
-  font-weight: bold;
-  position: absolute;
-  left: 85%;
-  top: 20px;
-}
-
-.sidebar-button {
-  position: absolute;
-  border: none;
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, .3);
-  left: 100%;
-  top: 2rem;
-  padding-left: 0.5rem;
-  transform: translateX(-50%);
-  cursor: pointer;
-  background-color: colours.$brand-primary;
-  color: colours.$body-text;
+.section-secondary {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px dotted colours.$brand-primary-deep;
 }
