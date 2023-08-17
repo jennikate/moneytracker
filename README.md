@@ -41,3 +41,4 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 - display payment list
 - filters on display
 - improve colours https://convertingcolors.com/hex-color-5B3256.html#:~:text=The%20Hex%20color%205B3256%20is,the%20grayscale%20version%20is%20424242.
+- clean up global consts
