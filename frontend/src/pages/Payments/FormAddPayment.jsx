@@ -7,6 +7,7 @@ function FormAddPayment() {
   const [optionsRecipient, setOptionsRecipient] = useState([]);
   const [optionsExpenseType, setOptionsExpenseType] = useState([]);
   const [optionsPaymentSource, setOptionsPaymentSource] = useState([]);
+  const [optionsPaymentType, setOptionsPaymentType] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
   const mapRecipients = ({ data }) => {
@@ -41,6 +42,9 @@ function FormAddPayment() {
         case 'paymentSource':
           setOptionsPaymentSource(mapOptions({ data: apiResponse.data }));
           break;
+        case 'paymentType':
+          setOptionsPaymentType(mapOptions({ data: apiResponse.data }));
+          break;
         default:
       }
     } catch (error) {
@@ -54,6 +58,7 @@ function FormAddPayment() {
     getOptionData({ optionType: 'recipient', url: '/recipient' });
     getOptionData({ optionType: 'expenseType', url: '/expense-type' });
     getOptionData({ optionType: 'paymentSource', url: '/payment-source' });
+    getOptionData({ optionType: 'paymentType', url: '/payment-type' });
   }, []);
 
   if (isLoading
@@ -66,16 +71,51 @@ function FormAddPayment() {
     );
   }
 
+  // TODO
+  /**
+   * setup so when payment source so it auto sets payment method
+   * review if want to have separate payment method on here or not -- if have it should default to the default
+   */
+
   return (
     <FormVertical
       apiUrl="/expense-type"
-      heading="Expense type"
+      heading="Payment"
       fields={
         [
           {
             label: 'Select date',
             inputType: 'text',
-            id: 'label'
+            id: 'date'
+          },
+          {
+            label: 'Select recipient',
+            inputType: 'select',
+            id: 'recipient',
+            options: optionsRecipient
+          },
+          {
+            label: 'Select expense type',
+            inputType: 'select',
+            id: 'expenseType',
+            options: optionsExpenseType
+          },
+          {
+            label: 'Select payment method',
+            inputType: 'select',
+            id: 'paymentType',
+            options: optionsPaymentType
+          },
+          {
+            label: 'Select payment source',
+            inputType: 'select',
+            id: 'paymentSource',
+            options: optionsPaymentSource
+          },
+          {
+            label: 'Amount',
+            inputType: 'text',
+            id: 'amount'
           }
         ]
       }
