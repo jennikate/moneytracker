@@ -40,5 +40,7 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 - create payment form
 - display payment list
 - filters on display
+- refactor forms so there's one form that takes different horizontal/vertical class as rest of form is same
 - improve colours https://convertingcolors.com/hex-color-5B3256.html#:~:text=The%20Hex%20color%205B3256%20is,the%20grayscale%20version%20is%20424242.
 - clean up global consts
+- improve getting data for Payment form so it's not rendering so many times

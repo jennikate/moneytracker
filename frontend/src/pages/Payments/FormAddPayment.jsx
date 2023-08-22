@@ -79,13 +79,13 @@ function FormAddPayment() {
 
   return (
     <FormVertical
-      apiUrl="/expense-type"
+      apiUrl="/payment"
       heading="Payment"
       fields={
         [
           {
             label: 'Select date',
-            inputType: 'text',
+            inputType: 'date',
             id: 'date'
           },
           {
@@ -101,16 +101,16 @@ function FormAddPayment() {
             options: optionsExpenseType
           },
           {
-            label: 'Select payment method',
-            inputType: 'select',
-            id: 'paymentType',
-            options: optionsPaymentType
-          },
-          {
             label: 'Select payment source',
             inputType: 'select',
             id: 'paymentSource',
             options: optionsPaymentSource
+          },
+          {
+            label: 'Select payment method',
+            inputType: 'select',
+            id: 'paymentType',
+            options: optionsPaymentType
           },
           {
             label: 'Amount',
