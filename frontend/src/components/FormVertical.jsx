@@ -19,6 +19,10 @@ function FormVertical({
   const handleChange = (e) => {
     let value;
 
+    // console.log(e.target.type, e.target.type === 'select' ? 'yes' : 'no')
+    // e.target.type returns select-one not sure why yet
+    // console.log(e.target[e.target.selectedIndex].getAttribute('data-relatedvalue'))
+
     // Handle dates
     if (e.target.type === 'date') {
       value = dayjs(e.target.value).format();
@@ -102,15 +106,22 @@ function FormVertical({
                       {field.label} <span className="hint">{field?.hint || ''}</span>
                     </label>
                     <select
-                      type="text"
+                      type="select"
                       id={field.id}
+                      name={field.name}
                       className="select"
                       defaultValue="selectOption"
                       onChange={handleChange}
                     >
                       <option disabled value="selectOption">Select an option</option>
                       {field.options.map((option) => (
-                        <option key={option.id} value={option.id}>{option.label}</option>
+                        <option
+                          key={option.id}
+                          value={option.id}
+                          data-relatedvalue={option.relatedId}
+                        >
+                          {option.label}
+                        </option>
                       ))}
                     </select>
                   </div>

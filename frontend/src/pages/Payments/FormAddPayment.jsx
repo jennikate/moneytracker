@@ -10,19 +10,20 @@ function FormAddPayment() {
   const [optionsPaymentType, setOptionsPaymentType] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
-  const mapRecipients = ({ data }) => {
+  const mapRecipients = ({ data, relatedId }) => {
     const response = data.map((option) => ({
       id: option.id,
-      expenseTypeId: option.expenseTypeId,
+      relatedId: option[relatedId],
       label: option.name
     }));
     return response;
   };
 
-  const mapOptions = ({ data }) => {
+  const mapOptions = ({ data, relatedId }) => {
     const response = data.map((option) => ({
       id: option.id,
-      label: option.label
+      label: option.label,
+      relatedId: option[relatedId]
     }));
     return response;
   };
@@ -34,13 +35,13 @@ function FormAddPayment() {
 
       switch (optionType) {
         case 'recipient':
-          setOptionsRecipient(mapRecipients({ data: apiResponse.data }));
+          setOptionsRecipient(mapRecipients({ data: apiResponse.data, relatedId: 'expenseTypeId' }));
           break;
         case 'expenseType':
           setOptionsExpenseType(mapOptions({ data: apiResponse.data }));
           break;
         case 'paymentSource':
-          setOptionsPaymentSource(mapOptions({ data: apiResponse.data }));
+          setOptionsPaymentSource(mapOptions({ data: apiResponse.data, relatedId: 'paymentTypeId'  }));
           break;
         case 'paymentType':
           setOptionsPaymentType(mapOptions({ data: apiResponse.data }));
@@ -74,7 +75,6 @@ function FormAddPayment() {
   // TODO
   /**
    * setup so when payment source so it auto sets payment method
-   * review if want to have separate payment method on here or not -- if have it should default to the default
    */
 
   return (
@@ -84,34 +84,35 @@ function FormAddPayment() {
       fields={
         [
           {
-            label: 'Select date',
+            label: 'Date',
             inputType: 'date',
             id: 'date'
           },
           {
-            label: 'Select recipient',
+            label: 'Recipient',
             inputType: 'select',
+            name: 'recipient',
             id: 'recipientId',
             options: optionsRecipient
           },
           {
-            label: 'Select expense type',
+            label: 'Payment source',
+            inputType: 'select',
+            id: 'paymentSourceId',
+            options: optionsPaymentSource
+          },
+          {
+            label: 'Expense type',
             inputType: 'select',
             id: 'expenseTypeId',
             options: optionsExpenseType
           },
           {
-            label: 'Select payment source',
+            label: 'Payment method',
             inputType: 'select',
-            id: 'paymentSourceId',
-            options: optionsPaymentSource
+            id: 'paymentTypeId',
+            options: optionsPaymentType
           },
-          // {
-          //   label: 'Select payment method',
-          //   inputType: 'select',
-          //   id: 'paymentTypeId',
-          //   options: optionsPaymentType
-          // },
           {
             label: 'Amount',
             inputType: 'text',
