@@ -91,27 +91,27 @@ function FormAddPayment() {
           {
             label: 'Select recipient',
             inputType: 'select',
-            id: 'recipient',
+            id: 'recipientId',
             options: optionsRecipient
           },
           {
             label: 'Select expense type',
             inputType: 'select',
-            id: 'expenseType',
+            id: 'expenseTypeId',
             options: optionsExpenseType
           },
           {
             label: 'Select payment source',
             inputType: 'select',
-            id: 'paymentSource',
+            id: 'paymentSourceId',
             options: optionsPaymentSource
           },
-          {
-            label: 'Select payment method',
-            inputType: 'select',
-            id: 'paymentType',
-            options: optionsPaymentType
-          },
+          // {
+          //   label: 'Select payment method',
+          //   inputType: 'select',
+          //   id: 'paymentTypeId',
+          //   options: optionsPaymentType
+          // },
           {
             label: 'Amount',
             inputType: 'text',

@@ -34,10 +34,15 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 
 
 ## TODO
+- create payment form
+  - populate defaults
+  - pass id's
+
+
+
 - update error messages on backend so it returns as an error
 - handle errors on FE
 - refactor so functions use function not const, save const for variables
-- create payment form
 - display payment list
 - filters on display
 - refactor forms so there's one form that takes different horizontal/vertical class as rest of form is same
