@@ -20,9 +20,10 @@ function FormAddPayment() {
     return response;
   };
 
-  const mapOptions = ({ data, relatedId }) => {
+  const mapOptions = ({ data, relatedField, relatedId }) => {
     const response = data.map((option) => ({
       id: option.id,
+      relatedField,
       label: option.label,
       relatedId: option[relatedId]
     }));
@@ -99,18 +100,21 @@ function FormAddPayment() {
           {
             label: 'Payment source',
             inputType: 'select',
+            name: 'paymentSource',
             id: 'paymentSourceId',
             options: optionsPaymentSource
           },
           {
             label: 'Expense type',
             inputType: 'select',
+            name: 'expenseType',
             id: 'expenseTypeId',
             options: optionsExpenseType
           },
           {
             label: 'Payment method',
             inputType: 'select',
+            name: 'paymentMethod',
             id: 'paymentTypeId',
             options: optionsPaymentType
           },

@@ -20,21 +20,6 @@ function FormVertical({
   const handleChange = (e) => {
     let value;
 
-    // TODO: automatically select the related fields value based on the selected fields value
-    // The obvious way is to keep the related fields value in state and update that on select
-    // but that requires each field to be in state, which currently it is not
-    // TRY: putting fields into state as an object on render rather than mapping straight from props
-    // then onChange can update the fields object with the selected value
-    // if that doesn't work, may want to consider refactoring so this isn't a reusable form 
-    // creator, but is just a set form
-
-    // TODO
-    // useEffect to take fields from props and put into state
-    // map from state into html
-    // update handleChange to check for related fields in the target
-    // if related field then update state with the related field value for that related field
-    // see what happens...
-
     // Handle dates
     if (e.target.type === 'date') {
       value = dayjs(e.target.value).format();
@@ -94,7 +79,6 @@ function FormVertical({
   }, [fields]);
 
   if (!fieldData) { <h2> Loading </h2>; }
-
   return (
     <form className="form form-vertical" onSubmit={handleSubmit}>
       <h2>{heading}</h2>
