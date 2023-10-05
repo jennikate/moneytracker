@@ -11,6 +11,14 @@ function Payments() {
   // TODO: collect this month name for caption
   // TODO: add restriction onto this endpoint to only get transactions for this month
   const [paymentData, setPaymentData] = useState();
+  const thisMonthDateStart = dayjs().startOf('month');
+  const thisMonthDateEnd = dayjs().endOf('month');
+
+  console.log(thisMonthDateEnd, thisMonthDateStart)
+
+  // ENDPOINT TO USE to get this month
+  // need to format thisMonthDateStart & End so we can add it into the endpoint below
+  // http://localhost:5000/payments?dateStart=2023-05-06T01:00:00.000Z&dateEnd=2023-05-06T01:00:00.000Z
 
   const getPayments = async () => {
     const apiResponse = await axios.get(`${API_BASE}/payments`);
