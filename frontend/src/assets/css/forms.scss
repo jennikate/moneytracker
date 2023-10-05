@@ -3,11 +3,11 @@
 input,
 select,
 .button {
-  border: 1px solid colours.$black;
+  border: 1px solid colours.$form-borders;
   border-radius: 3px;
   font-size: 1rem;
   display: block;
-  padding: 5px;
+  padding: 10px;
   margin: 10px 0;
 
   &:focus {
@@ -61,26 +61,12 @@ label {
   }
 }
 
-// .sidebar-content {
-//   label {
-//     .hint {
-//       color: colours.$contrast-assistive-text;
-//     }
-//   }
-//   input, select {
-//     border: 1px solid white;
-//   }
-//   form button {
-//     color: green
-//   }
-// }
-
 .sidebar-content {
   form {
     background-color: colours.$white;
     padding: 1.25rem;
 
-    h2, label, button {
+    h2, label, button, select, option, input {
       color: colours.$black;
     }
   }
@@ -94,18 +80,18 @@ label {
     padding: 10px;
     margin-bottom: 20px;
 
+    input,
+    select {
+      width: 100%;
+    }
+
     &-horizontal {
       width: 100%;
-
-      input,
-      select {
-        width: 100%;
-      }
 
       .form-field {
         display: inline-block;
         margin-right: 20px;
-        width: 350px;
+        width: 30%
       }
 
       .button-submit {
@@ -115,6 +101,16 @@ label {
 
     &-vertical {
       border: none;
+
+      .form-field {
+        margin-bottom: 2rem;
+      }
+
+      .button-submit {
+        width: 100%;
+        text-align: center;
+        margin-top: 2rem;
+      }
     }
   }
 
