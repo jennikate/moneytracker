@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { API_BASE } from '../constants/ApiConstants';
 import PostSource from '../utils/PostSource';
@@ -11,6 +11,7 @@ function FormVertical({
   fields,
   heading
 }) {
+  const [fieldData, setFieldData] = useState();
   const [formData, setFormData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -19,9 +20,20 @@ function FormVertical({
   const handleChange = (e) => {
     let value;
 
-    // console.log(e.target.type, e.target.type === 'select' ? 'yes' : 'no')
-    // e.target.type returns select-one not sure why yet
-    // console.log(e.target[e.target.selectedIndex].getAttribute('data-relatedvalue'))
+    // TODO: automatically select the related fields value based on the selected fields value
+    // The obvious way is to keep the related fields value in state and update that on select
+    // but that requires each field to be in state, which currently it is not
+    // TRY: putting fields into state as an object on render rather than mapping straight from props
+    // then onChange can update the fields object with the selected value
+    // if that doesn't work, may want to consider refactoring so this isn't a reusable form 
+    // creator, but is just a set form
+
+    // TODO
+    // useEffect to take fields from props and put into state
+    // map from state into html
+    // update handleChange to check for related fields in the target
+    // if related field then update state with the related field value for that related field
+    // see what happens...
 
     // Handle dates
     if (e.target.type === 'date') {
@@ -33,10 +45,23 @@ function FormVertical({
       value = parseInt(e.target.value, 10);
     }
 
+    // Handle related field
+    if (e.target[e.target.selectedIndex].getAttribute('data-relatedfield')) {
+      const newFieldData = [...fieldData];
+      const relatedField = e.target[e.target.selectedIndex].getAttribute('data-relatedfield');
+      const relatedValue = e.target[e.target.selectedIndex].getAttribute('data-relatedvalue');
+
+      // Find index of of the related field in the array
+      const objIndex = fieldData.findIndex((obj) => obj.id === relatedField);
+      // Set the value of the select to the new option id
+      const relatedValueNum = parseInt(relatedValue, 10);
+      newFieldData[objIndex].value = relatedValueNum;
+      setFieldData(newFieldData);
+    }
+
     const newItem = { [e.target.id]: value };
     setFormData({ ...formData, ...newItem });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData) {
@@ -62,6 +87,14 @@ function FormVertical({
     }
   };
 
+  useEffect(() => {
+    if (fields) {
+      setFieldData(fields);
+    }
+  }, [fields]);
+
+  if (!fieldData) { <h2> Loading </h2>; }
+
   return (
     <form className="form form-vertical" onSubmit={handleSubmit}>
       <h2>{heading}</h2>
@@ -76,7 +109,7 @@ function FormVertical({
         <>
           {/* <div className="form-field"> */}
           {
-            fields.map((field) => (
+            fieldData && fieldData.map((field) => (
               <React.Fragment key={field.id}>
                 {field.inputType === 'date' && (
                   <div className="form-field">
@@ -112,6 +145,7 @@ function FormVertical({
                       className="select"
                       defaultValue="selectOption"
                       onChange={handleChange}
+                      value={field.value}
                     >
                       <option disabled value="selectOption">Select an option</option>
                       {field.options.map((option) => (
@@ -119,6 +153,7 @@ function FormVertical({
                           key={option.id}
                           value={option.id}
                           data-relatedvalue={option.relatedId}
+                          data-relatedfield={option.relatedField}
                         >
                           {option.label}
                         </option>

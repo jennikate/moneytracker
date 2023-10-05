@@ -10,9 +10,10 @@ function FormAddPayment() {
   const [optionsPaymentType, setOptionsPaymentType] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
-  const mapRecipients = ({ data, relatedId }) => {
+  const mapRecipients = ({ data, relatedField, relatedId }) => {
     const response = data.map((option) => ({
       id: option.id,
+      relatedField,
       relatedId: option[relatedId],
       label: option.name
     }));
@@ -35,13 +36,13 @@ function FormAddPayment() {
 
       switch (optionType) {
         case 'recipient':
-          setOptionsRecipient(mapRecipients({ data: apiResponse.data, relatedId: 'expenseTypeId' }));
+          setOptionsRecipient(mapRecipients({ data: apiResponse.data, relatedField: 'expenseTypeId', relatedId: 'expenseTypeId' }));
           break;
         case 'expenseType':
           setOptionsExpenseType(mapOptions({ data: apiResponse.data }));
           break;
         case 'paymentSource':
-          setOptionsPaymentSource(mapOptions({ data: apiResponse.data, relatedId: 'paymentTypeId'  }));
+          setOptionsPaymentSource(mapOptions({ data: apiResponse.data, relatedField: 'paymentTypeId', relatedId: 'paymentTypeId' }));
           break;
         case 'paymentType':
           setOptionsPaymentType(mapOptions({ data: apiResponse.data }));
