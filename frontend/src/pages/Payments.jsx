@@ -1,57 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import { API_BASE } from '../constants/ApiConstants';
+import pounds from '../utils/CurrencyFormat';
 import '../assets/css/components.scss';
 import '../assets/css/payments.scss';
 
 function Payments() {
-  // TODO: collect this month name for h2
+  // TODO: collect this month name for caption
+  // TODO: add restriction onto this endpoint to only get transactions for this month
+  const [paymentData, setPaymentData] = useState();
+
+  const getPayments = async () => {
+    const apiResponse = await axios.get(`${API_BASE}/payments`);
+    setPaymentData(apiResponse.data);
+  };
+
+  useEffect(() => {
+    getPayments();
+  }, []);
+
+  if (!paymentData) { return <h1>Loading</h1>; }
+
   return (
     <>
+      <h1>Payments</h1>
       <div className="action-container">
-        <h1>Payments</h1>
-        <button
-          type="button"
-          className="link-navigation"
+        <h2>This months name payments</h2>
+        <Link
+          to="/"
         >
-          button
-        </button>
+          View more
+        </Link>
       </div>
       <div className="payment-table">
         <table>
-          <caption>This months name</caption>
+
           <thead>
             <tr>
-              <th scope="col">Account</th>
-              <th scope="col">Due Date</th>
+              <th scope="col">Date paid</th>
+              <th scope="col">Paid to</th>
+              <th scope="col">Paid from</th>
+              <th scope="col">Type</th>
               <th scope="col">Amount</th>
-              <th scope="col">Period</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td data-label="Account">Visa - 3412</td>
-              <td data-label="Due Date">04/01/2016</td>
-              <td data-label="Amount">$1,190</td>
-              <td data-label="Period">03/01/2016 - 03/31/2016</td>
-            </tr>
-            <tr>
-              <td data-label="Account">Visa - 6076</td>
-              <td data-label="Due Date">03/01/2016</td>
-              <td data-label="Amount">$2,443</td>
-              <td data-label="Period">02/01/2016 - 02/29/2016</td>
-            </tr>
-            <tr>
-              <td data-label="Account">Corporate AMEX</td>
-              <td data-label="Due Date">03/01/2016</td>
-              <td data-label="Amount">$1,181</td>
-              <td data-label="Period">02/01/2016 - 02/29/2016</td>
-            </tr>
-            <tr>
-              <td data-label="Acount">Visa - 3412</td>
-              <td data-label="Due Date">02/01/2016</td>
-              <td data-label="Amount">$842</td>
-              <td data-label="Period">01/01/2016 - 01/31/2016</td>
-            </tr>
+            {paymentData && paymentData.map((payment) => (
+              <tr key={payment.id}>
+                <td data-label="Date paid">{dayjs(payment?.date).format('DD-MM-YYYY')}</td>
+                <td data-label="Paid to">{payment.recipient.name}</td>
+                <td data-label="Paid from">{payment.paymentSource.label}</td>
+                <td data-label="Type">{payment.expenseType.label}</td>
+                <td data-label="Amount">{pounds.format(payment.amount)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

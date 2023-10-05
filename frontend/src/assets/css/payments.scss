@@ -1,13 +1,12 @@
 @use '_colours.scss';
 
 .action-container {
-  background-color: green;
   display: flex;
   justify-content: space-between;
 }
 
 table {
-  border: 1px solid #ccc;
+  border: 1px solid colours.$table-borders;
   border-collapse: collapse;
   margin: 0;
   padding: 0;
@@ -21,9 +20,11 @@ table caption {
 }
 
 table tr {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
+  border: 1px solid colours.$table-borders;
   padding: .35em;
+}
+tr:nth-child(even) {
+  background-color: colours.$table-row-background;
 }
 
 table th,
@@ -36,6 +37,8 @@ table th {
   font-size: .85em;
   letter-spacing: .1em;
   text-transform: uppercase;
+  font-weight: 800;
+  background-color: colours.$brand-primary;
 }
 
 @media screen and (max-width: 600px) {
@@ -59,13 +62,13 @@ table th {
   }
   
   table tr {
-    border-bottom: 3px solid #ddd;
+    border-bottom: 3px solid colours.$table-borders;
     display: block;
     margin-bottom: .625em;
   }
   
   table td {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid colours.$table-borders;
     display: block;
     font-size: .8em;
     text-align: right;
