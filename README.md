@@ -34,8 +34,9 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 
 
 ## TODO
- - display payment list
  - filter payment list by date
+ - filter payment by type
+ - add totals to payment list
 
 
 
