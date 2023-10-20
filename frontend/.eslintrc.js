@@ -19,6 +19,7 @@ module.exports = {
   rules: {
     'jsx-a11y/label-has-associated-control': ['error', { assert: 'either' }],
     'comma-dangle': ['error', 'never'],
+    'max-len': ['error', { code: 150 }],
     'react/jsx-one-expression-per-line': 0
   }
 };

@@ -34,11 +34,6 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 
 
 ## TODO
- - display payment list
- - filter payment list by date
-
-
-
 - update error messages on backend so it returns as an error
 - handle errors on FE
 - refactor so functions use function not const, save const for variables
