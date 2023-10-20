@@ -34,16 +34,6 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 
 
 ## TODO
- - filter payment by type
-   // TODO NEXT
-  - on selection get payments with expense type added as extra filter
-  - style the filters
-
-
- - add totals to payment list
-
-
-
 - update error messages on backend so it returns as an error
 - handle errors on FE
 - refactor so functions use function not const, save const for variables

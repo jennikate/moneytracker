@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { API_BASE } from '../constants/ApiConstants';
@@ -18,6 +17,7 @@ function Payments() {
   const [paymentData, setPaymentData] = useState();
   const [selectedDate, setSelectedDate] = useState(sessionStorage.getItem('selectedDate'));
   const [selectedExpenseType, setSelectedExpenseType] = useState(sessionStorage.getItem('expenseType'));
+  const [totals, setTotals] = useState();
 
   // TODO: this is repeating a call from FormAddPayment, look to combine this
   const getExpenseTypeData = async () => {
@@ -31,6 +31,11 @@ function Payments() {
   };
 
   // From here is code specific for this page
+  const calculateTotal = (data) => {
+    const result = data.length > 0 ? data.map((payment) => payment.amount).reduce((a, b) => a + b) : 0;
+    setTotals(result);
+  };
+
   const getPayments = async ({ date, expenseType }) => {
     let dateToUse;
     if (date) {
@@ -60,6 +65,7 @@ function Payments() {
     const apiResponse = await axios.get(`${API_BASE}/payments?dateStart=${startDate}&dateEnd=${endDate}&expense=${expenseTypeToUse}`);
 
     setPaymentData(apiResponse.data);
+    calculateTotal(apiResponse.data);
     sessionStorage.setItem('selectedDate', dateToUse);
     sessionStorage.setItem('expenseType', expenseTypeToUse);
   };
@@ -137,7 +143,7 @@ function Payments() {
               <th scope="col">Paid to</th>
               <th scope="col">Paid from</th>
               <th scope="col">Type</th>
-              <th scope="col">Amount</th>
+              <th scope="col" className="currency">Amount</th>
             </tr>
           </thead>
           <tbody>
@@ -147,10 +153,16 @@ function Payments() {
                 <td data-label="Paid to">{payment.recipient.name}</td>
                 <td data-label="Paid from">{payment.paymentSource.label}</td>
                 <td data-label="Type">{payment.expenseType.label}</td>
-                <td data-label="Amount">{pounds.format(payment.amount)}</td>
+                <td data-label="Amount" className="currency">{pounds.format(payment.amount)}</td>
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr>
+              <th id="total" colSpan="4">Total :</th>
+              <td className="currency">{pounds.format(totals)}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </>

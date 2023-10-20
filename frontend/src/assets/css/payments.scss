@@ -49,6 +49,24 @@ table th {
   background-color: colours.$brand-primary;
 }
 
+table tfoot {
+  th {
+  background-color: colours.$brand-secondary;
+  color: colours.$contrast-text;
+  text-align: right;
+  }
+  td {
+    font-weight: bold;
+    border: 2px solid;
+  }
+}
+
+.currency {
+  text-align: right;
+  width: 150px;
+  padding-right: 50px;
+}
+
 @media screen and (max-width: 600px) {
   table {
     border: 0;
