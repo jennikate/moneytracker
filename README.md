@@ -36,10 +36,8 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 ## TODO
  - filter payment by type
    // TODO NEXT
-  // - don't use form constructor for expense type select
-  // - get expense type list (with IDs and label)
-  // - populate a select drop down
-  // - on selection get payments with expense type added as extra filter
+  - on selection get payments with expense type added as extra filter
+  - style the filters
 
 
  - add totals to payment list

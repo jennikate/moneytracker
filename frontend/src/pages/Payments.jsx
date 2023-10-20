@@ -13,16 +13,14 @@ function Payments() {
   // TODO: add restriction onto this endpoint to only get transactions for this month
   const [optionsExpenseType, setOptionsExpenseType] = useState();
   const [paymentData, setPaymentData] = useState();
-  const [selectedMonth, setSelectedMonth] = useState();
-  const [selectedExpenseType, setSelectedExpenseType] = useState();
+  const [selectedDate, setSelectedDate] = useState(sessionStorage.getItem('selectedDate'));
+  const [selectedExpenseType, setSelectedExpenseType] = useState(sessionStorage.getItem('expenseType'));
 
   // TODO NEXT
   // - don't use form constructor for expense type select
   // - get expense type list (with IDs and label)
   // - populate a select drop down
   // - on selection get payments with expense type added as extra filter
-
-
 
   // TODO: this is repeating a call from FormAddPayment, look to combine this
   const getExpenseTypeData = async () => {
@@ -35,26 +33,65 @@ function Payments() {
   };
 
   // From here is code specific for this page
-  const getPayments = async (date) => {
-    const startDate = dayjs(date).format('YYYY-MM-DD');
-    const endDate = dayjs(date).endOf('month').format('YYYY-MM-DD');
+  const getPayments = async ({ date, expenseType }) => {
+    /**
+     * If a date is passed in that wins
+     * else if there is a date in sessionStorage that wins
+     * else if there is a selected date that wins
+     * else we use today
+     */
+    let dateToUse;
+    if (date) {
+      dateToUse = date;
+    } else if (sessionStorage.getItem('selectedDate')) {
+      dateToUse = sessionStorage.getItem('selectedDate');
+    } else if (selectedDate) {
+      dateToUse = selectedDate;
+    } else {
+      dateToUse = dayjs();
+    }
 
-    const apiResponse = await axios.get(`${API_BASE}/payments?dateStart=${startDate}&dateEnd=${endDate}`);
+    let expenseTypeToUse;
+    if (expenseType) {
+      expenseTypeToUse = expenseType;
+    } else if (sessionStorage.getItem('expenseType')) {
+      expenseTypeToUse = sessionStorage.getItem('expenseType');
+    } else if (selectedExpenseType) {
+      expenseTypeToUse = selectedExpenseType;
+    } else {
+      expenseTypeToUse = null;
+    }
+
+    const startDate = dayjs(dateToUse).startOf('month').format('YYYY-MM-DD');
+    const endDate = dayjs(dateToUse).endOf('month').format('YYYY-MM-DD');
+
+    const apiResponse = await axios.get(`${API_BASE}/payments?dateStart=${startDate}&dateEnd=${endDate}&expense=${expenseTypeToUse}`);
+
     setPaymentData(apiResponse.data);
+    sessionStorage.setItem('selectedDate', dateToUse);
+    sessionStorage.setItem('expenseType', expenseTypeToUse);
   };
 
   const handleChange = (e) => {
-    setSelectedMonth(e.target.value);
-    getPayments(dayjs(e.target.value).startOf().format('YYYY-MM-DD'));
+    setSelectedDate(e.target.value);
+    getPayments({ date: dayjs(e.target.value) });
+  };
+
+  const handleChangeExpense = (e) => {
+    console.log(e.target);
+    setSelectedExpenseType(e.target.value);
+    getPayments({ expenseType: e.target.value });
   };
 
   useEffect(() => {
-    getExpenseTypeData();
-    getPayments();
+    getExpenseTypeData(selectedExpenseType || null);
+    getPayments({
+      date: selectedDate || dayjs(),
+      expenseType: selectedExpenseType
+    });
   }, []);
 
   if (!paymentData) { return <h1>Loading</h1>; }
-
   return (
     <>
       <h1>Payments</h1>
@@ -64,25 +101,37 @@ function Payments() {
           type="month"
           id="viewMonth"
           name="viewMonth"
-          value={selectedMonth || dayjs().format('YYYY-MM')}
+          value={selectedDate || dayjs().format('YYYY-MM')}
           onChange={(e) => { handleChange(e); }}
         />
+        {optionsExpenseType && (
+          <div className="form-field">
+            <label htmlFor="expenseType">
+              Expense type
+            </label>
+            <select
+              type="select"
+              id="expenseType"
+              name="expenseType"
+              className="select"
+              defaultValue={selectedExpenseType}
+              onChange={(e) => { handleChangeExpense(e); }}
+            >
+              <option disabled value="selectOption">Select an option</option>
+              {optionsExpenseType.map((option) => (
+                <option
+                  key={option.id}
+                  value={option.id}
+                  data-relatedvalue={option.relatedId}
+                  data-relatedfield={option.relatedField}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
-        <FormVertical
-          apiUrl="/payment"
-          heading="Payment"
-          fields={
-            [
-              {
-                label: 'Expense type',
-                inputType: 'select',
-                name: 'expenseType',
-                id: 'expenseTypeId',
-                options: optionsExpenseType
-              }
-            ]
-          }
-        />
       </div>
       <div className="payment-table">
         <table>
