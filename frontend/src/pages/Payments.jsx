@@ -6,21 +6,18 @@ import { API_BASE } from '../constants/ApiConstants';
 import pounds from '../utils/CurrencyFormat';
 import '../assets/css/components.scss';
 import '../assets/css/payments.scss';
-import FormVertical from '../components/FormVertical';
+
+/**
+ *
+ * input type = month is not supported on Safari (desktop) or Firefox or IE https://caniuse.com/?search=month
+ * as this is a learning project & just for my mum who uses Edge/Chrome that's fine
+ */
 
 function Payments() {
-  // TODO: collect this month name for caption
-  // TODO: add restriction onto this endpoint to only get transactions for this month
   const [optionsExpenseType, setOptionsExpenseType] = useState();
   const [paymentData, setPaymentData] = useState();
   const [selectedDate, setSelectedDate] = useState(sessionStorage.getItem('selectedDate'));
   const [selectedExpenseType, setSelectedExpenseType] = useState(sessionStorage.getItem('expenseType'));
-
-  // TODO NEXT
-  // - don't use form constructor for expense type select
-  // - get expense type list (with IDs and label)
-  // - populate a select drop down
-  // - on selection get payments with expense type added as extra filter
 
   // TODO: this is repeating a call from FormAddPayment, look to combine this
   const getExpenseTypeData = async () => {
@@ -28,18 +25,13 @@ function Payments() {
       const apiResponse = await axios.get(`${API_BASE}/expense-type`);
       setOptionsExpenseType(apiResponse.data);
     } catch (error) {
+      // TODO: handle errors
       console.log('e', error);
     }
   };
 
   // From here is code specific for this page
   const getPayments = async ({ date, expenseType }) => {
-    /**
-     * If a date is passed in that wins
-     * else if there is a date in sessionStorage that wins
-     * else if there is a selected date that wins
-     * else we use today
-     */
     let dateToUse;
     if (date) {
       dateToUse = date;
@@ -78,7 +70,6 @@ function Payments() {
   };
 
   const handleChangeExpense = (e) => {
-    console.log(e.target);
     setSelectedExpenseType(e.target.value);
     getPayments({ expenseType: e.target.value });
   };
@@ -96,14 +87,18 @@ function Payments() {
     <>
       <h1>Payments</h1>
       <div className="action-container">
-        {/* Need to put something in for accessibility to indicate which month/year we're on */}
-        <input
-          type="month"
-          id="viewMonth"
-          name="viewMonth"
-          value={selectedDate || dayjs().format('YYYY-MM')}
-          onChange={(e) => { handleChange(e); }}
-        />
+        <div className="form-field">
+          <label htmlFor="viewMonth">
+            Month
+          </label>
+          <input
+            type="month"
+            id="viewMonth"
+            name="viewMonth"
+            value={dayjs(selectedDate).format('YYYY-MM') || dayjs().format('YYYY-MM')}
+            onChange={(e) => { handleChange(e); }}
+          />
+        </div>
         {optionsExpenseType && (
           <div className="form-field">
             <label htmlFor="expenseType">
@@ -117,7 +112,7 @@ function Payments() {
               defaultValue={selectedExpenseType}
               onChange={(e) => { handleChangeExpense(e); }}
             >
-              <option disabled value="selectOption">Select an option</option>
+              <option value="selectOption">Show all</option>
               {optionsExpenseType.map((option) => (
                 <option
                   key={option.id}

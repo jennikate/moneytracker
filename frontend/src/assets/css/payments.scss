@@ -2,7 +2,14 @@
 
 .action-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  input,
+  select {
+    min-height: 45px;
+    margin: 5px 10px 10px 0;
+  }
 }
 
 table {
@@ -23,6 +30,7 @@ table tr {
   border: 1px solid colours.$table-borders;
   padding: .35em;
 }
+
 tr:nth-child(even) {
   background-color: colours.$table-row-background;
 }
@@ -49,7 +57,7 @@ table th {
   table caption {
     font-size: 1.3em;
   }
-  
+
   table thead {
     border: none;
     clip: rect(0 0 0 0);
@@ -60,27 +68,27 @@ table th {
     position: absolute;
     width: 1px;
   }
-  
+
   table tr {
     border-bottom: 3px solid colours.$table-borders;
     display: block;
     margin-bottom: .625em;
   }
-  
+
   table td {
     border-bottom: 1px solid colours.$table-borders;
     display: block;
     font-size: .8em;
     text-align: right;
   }
-  
+
   table td::before {
     content: attr(data-label);
     float: left;
     font-weight: bold;
     text-transform: uppercase;
   }
-  
+
   table td:last-child {
     border-bottom: 0;
   }
