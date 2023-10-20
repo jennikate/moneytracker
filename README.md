@@ -34,6 +34,11 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 
 
 ## TODO
+BUGS
+- can't change payment type when adding new payment
+- getAttribute error thrown when typing in amt field
+
+
 - update error messages on backend so it returns as an error
 - handle errors on FE
 - refactor so functions use function not const, save const for variables
