@@ -1,4 +1,4 @@
 node_modules/
 .next/
 *.env*
-dev.db
+backend/prisma/dev.db
