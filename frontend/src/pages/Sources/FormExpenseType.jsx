@@ -1,7 +1,7 @@
 import React from 'react';
 import FormHorizontal from '../../components/FormHorizontal';
 
-function FormExpenseType() {
+function FormExpenseType({ setIsUpdated }) {
   return (
     <FormHorizontal
       apiUrl="/expense-type"
@@ -16,6 +16,7 @@ function FormExpenseType() {
           }
         ]
       }
+      setIsUpdated={setIsUpdated}
     />
   );
 }
