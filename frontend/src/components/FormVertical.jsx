@@ -19,8 +19,10 @@ function FormVertical({
 
   const handleChange = (e) => {
     let value;
+    let relatedItem;
+    const newFieldData = [...fieldData];
 
-    // Handle dates
+    // Handle dates & strings
     if (e.target.type === 'date') {
       value = dayjs(e.target.value).format();
     } else if (Number.isNaN(parseInt(e.target.value, 10))) {
@@ -30,23 +32,32 @@ function FormVertical({
       value = parseInt(e.target.value, 10);
     }
 
-    // Handle related field
-    if (e.target[e.target.selectedIndex].getAttribute('data-relatedfield')) {
-      const newFieldData = [...fieldData];
-      const relatedField = e.target[e.target.selectedIndex].getAttribute('data-relatedfield');
-      const relatedValue = e.target[e.target.selectedIndex].getAttribute('data-relatedvalue');
+    /**
+     * If the target has a related field we want to autopopulate that field with the default
+     * However user can then manually override that selection
+     * So the else here covers that scenario, and ensures the fieldData is updated with
+     * the selected value for both primary fields and manually changed related fields
+     */
+    const fieldToFind = e.target[e.target.selectedIndex]?.getAttribute('data-relatedfield') || e.target.id;
+    const valueToSet = e.target[e.target.selectedIndex]?.getAttribute('data-relatedvalue') || value;
 
-      // Find index of of the related field in the array
-      const objIndex = fieldData.findIndex((obj) => obj.id === relatedField);
-      // Set the value of the select to the new option id
-      const relatedValueNum = parseInt(relatedValue, 10);
-      newFieldData[objIndex].value = relatedValueNum;
-      setFieldData(newFieldData);
+    const objIndex = fieldData.findIndex((obj) => obj.id === fieldToFind);
+    newFieldData[objIndex].value = parseInt(valueToSet, 10);
+    setFieldData(newFieldData);
+
+    /**
+     * If there is a related field we need to get that value so we can set it to form data
+     * This also ensures if user manually changes a related field value
+     * THEN changes the parent value, we reset the related field based on parent
+     */
+    if (e.target[e.target.selectedIndex]?.getAttribute('data-relatedfield')) {
+      relatedItem = { [fieldToFind]: parseInt(valueToSet, 10) };
     }
 
     const newItem = { [e.target.id]: value };
-    setFormData({ ...formData, ...newItem });
+    setFormData({ ...formData, ...newItem, ...relatedItem });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData) {
