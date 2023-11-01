@@ -8,7 +8,8 @@ import SubmitButton from './SubmitButton';
 function FormHorizontal({
   apiUrl,
   fields,
-  heading
+  heading,
+  setIsUpdated
 }) {
   const [formData, setFormData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -51,6 +52,7 @@ function FormHorizontal({
       setShowConfirmation(true);
       setFormData(null);
       setTypeAdded(response?.data?.label || response?.data?.name);
+      setIsUpdated(true);
     }
   };
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_BASE } from '../../constants/ApiConstants';
 import FormHorizontal from '../../components/FormHorizontal';
 
-function FormRecipient() {
+function FormRecipient({ isUpdated, setIsUpdated }) {
   const [options, setOptions] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
@@ -26,7 +26,7 @@ function FormRecipient() {
 
   useEffect(() => {
     getOptionData();
-  }, []);
+  }, [isUpdated]);
 
   if (isLoading || options.length < 1) {
     return (

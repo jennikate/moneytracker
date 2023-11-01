@@ -35,8 +35,8 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 
 ## TODO
 BUGS
-- can't change payment type when adding new payment
-- getAttribute error thrown when typing in amt field
+- refresh other form components & payment table when form submitted
+- move isupdated into context
 
 ---
 - handle errors on FE

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_BASE } from '../../constants/ApiConstants';
 import FormHorizontal from '../../components/FormHorizontal';
 
-function FormPaymentSource() {
+function FormPaymentSource({ isUpdated, setIsUpdated }) {
   const [options, setOptions] = useState([]);
   const [isLoading, setIsLoading] = useState();
 
@@ -26,7 +26,7 @@ function FormPaymentSource() {
 
   useEffect(() => {
     getOptionData();
-  }, []);
+  }, [isUpdated]);
 
   if (isLoading || options.length < 1) {
     return (
@@ -59,6 +59,7 @@ function FormPaymentSource() {
           }
         ]
       }
+      setIsUpdated={setIsUpdated}
     />
   );
 }
