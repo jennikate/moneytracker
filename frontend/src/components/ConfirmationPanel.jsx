@@ -3,7 +3,7 @@ import React from 'react';
 function ConfirmationPanel({ setShowConfirmation, itemAdded, type }) {
   return (
     <div className="confirmation-panel">
-      <p className="confirmation-text">{itemAdded} added</p>
+      {itemAdded && <p className="confirmation-text">{itemAdded} added</p>}
       <button
         type="button"
         className="button button-confirmation"
