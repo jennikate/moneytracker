@@ -19,8 +19,9 @@ function FormVertical({
 
   const handleChange = (e) => {
     let value;
+    let relatedItem;
 
-    // Handle dates
+    // Handle dates & strings
     if (e.target.type === 'date') {
       value = dayjs(e.target.value).format();
     } else if (Number.isNaN(parseInt(e.target.value, 10))) {
@@ -30,8 +31,13 @@ function FormVertical({
       value = parseInt(e.target.value, 10);
     }
 
-    // Handle related field
-    if (e.target[e.target.selectedIndex].getAttribute('data-relatedfield')) {
+    /**
+     * If the target has a related field we want to autopopulate that field with the default
+     * However user can then manually override that selection
+     * So the else here covers that scenario, and ensures the fieldData is updated with
+     * the selected value for both primary fields and manually changed related fields
+     */
+    if (e.target[e.target.selectedIndex]?.getAttribute('data-relatedfield')) {
       const newFieldData = [...fieldData];
       const relatedField = e.target[e.target.selectedIndex].getAttribute('data-relatedfield');
       const relatedValue = e.target[e.target.selectedIndex].getAttribute('data-relatedvalue');
@@ -42,11 +48,26 @@ function FormVertical({
       const relatedValueNum = parseInt(relatedValue, 10);
       newFieldData[objIndex].value = relatedValueNum;
       setFieldData(newFieldData);
+
+      // Set the related field to the formData
+      relatedItem = { [relatedField]: relatedValueNum };
+    } else {
+      const newFieldData = [...fieldData];
+      const thisField = e.target.id;
+      const thisValue = value;
+
+      // Find index of of the related field in the array
+      const objIndex = fieldData.findIndex((obj) => obj.id === thisField);
+      // Set the value of the select to the new option id
+      const thisValueNum = parseInt(thisValue, 10);
+      newFieldData[objIndex].value = thisValueNum;
+      setFieldData(newFieldData);
     }
 
     const newItem = { [e.target.id]: value };
-    setFormData({ ...formData, ...newItem });
+    setFormData({ ...formData, ...newItem, ...relatedItem });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData) {

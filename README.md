@@ -38,12 +38,20 @@ BUGS
 - can't change payment type when adding new payment
 - getAttribute error thrown when typing in amt field
 
-
-- update error messages on backend so it returns as an error
+---
 - handle errors on FE
 - refactor so functions use function not const, save const for variables
-- refactor forms so there's one form that takes different horizontal/vertical class as rest of form is same
-- improve colours https://convertingcolors.com/hex-color-5B3256.html#:~:text=The%20Hex%20color%205B3256%20is,the%20grayscale%20version%20is%20424242.
+- refactor to reduce repetiton (forms, mappers maybe)
 - clean up global consts
+
+---
+- update error messages on backend so it returns as an error
+
+---
+- improve colours https://convertingcolors.com/hex-color-5B3256.html#:~:text=The%20Hex%20color%205B3256%20is,the%20grayscale%20version%20is%20424242.
+
 - improve getting data for Payment form so it's not rendering so many times
 - make responsive
+
+
+NOTE: remember Santander and HSBC payment sources currently have no related method and therefore break
