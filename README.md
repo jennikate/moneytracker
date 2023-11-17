@@ -13,7 +13,7 @@ Update db model: `npx prisma migrate dev --name <name>`
 Created first FE with 
 - React 18
 - React Router 6
-- Ibpack 5
+- Webpack 5
 
 First FE is not responsive as current usecase is only for widescreen desktop.
 
@@ -21,9 +21,9 @@ First FE is not responsive as current usecase is only for widescreen desktop.
 Aim to replicate FE with different frameworks/languages/libraries for practice, including making responsive and a native mobile version
 
 TODO:
-- NextJS
 - Typescript
 - React Native
+- NextJS?
 
 
 
@@ -39,13 +39,13 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 - write tests
 
 ---
-- handle errors on FE
 - refactor so functions use function not const, save const for variables
 - refactor to reduce repetiton (forms, mappers maybe)
 - clean up global consts
 
 ---
 - update error messages on backend so it returns as an error
+- handle error responses on FE
 
 ---
 - improve colours https://convertingcolors.com/hex-color-5B3256.html#:~:text=The%20Hex%20color%205B3256%20is,the%20grayscale%20version%20is%20424242.
