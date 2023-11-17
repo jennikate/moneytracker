@@ -33,10 +33,8 @@ NextJS / Express example: https://github.com/prisma/prisma-examples/tree/latest/
 Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your-stack/rest
 
 
-## TODO
-BUGS
-- refresh other form components & payment table when form submitted
-- move isupdated into context
+## TODOs
+- use isupdated to refresh payment form & panel
 
 ---
 - handle errors on FE
