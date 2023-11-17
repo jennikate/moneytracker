@@ -2,14 +2,19 @@
 
 .action-container {
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
+  justify-content: space-between;
+  align-items: center;
 
   input,
   select {
     min-height: 45px;
     margin: 5px 10px 10px 0;
   }
+}
+.action-container .actions-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
 table {
