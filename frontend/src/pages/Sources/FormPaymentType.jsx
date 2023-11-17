@@ -1,7 +1,7 @@
 import React from 'react';
 import FormHorizontal from '../../components/FormHorizontal';
 
-function FormPaymentType({ setIsUpdated }) {
+function FormPaymentType() {
   return (
     <FormHorizontal
       apiUrl="/payment-type"
@@ -16,7 +16,6 @@ function FormPaymentType({ setIsUpdated }) {
           }
         ]
       }
-      setIsUpdated={setIsUpdated}
     />
   );
 }
