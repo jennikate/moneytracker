@@ -1,5 +1,7 @@
 # Money Tracker
 
+A small app for testing and learning
+
 ## Backend
 - Prisma (ORM)
 - SQLite (database)
