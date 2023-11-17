@@ -1,9 +1,9 @@
 import React from 'react';
-import FormHorizontal from '../../components/FormHorizontal';
+import FormVertical from '../../components/FormVertical';
 
 function FormPaymentType() {
   return (
-    <FormHorizontal
+    <FormVertical
       apiUrl="/payment-type"
       heading="Payment type"
       fields={

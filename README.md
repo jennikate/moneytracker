@@ -34,7 +34,9 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 
 
 ## TODOs
-- use isupdated to refresh payment form & panel
+- remove horizontal form as not used
+- check for other unused items
+- write tests
 
 ---
 - handle errors on FE
