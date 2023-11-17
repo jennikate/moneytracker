@@ -15,7 +15,16 @@
   &:hover {
     color: colours.$brand-primary;
   }
+
+  &--light-background {
+    color: colours.$black;
+
+    &:hover {
+      color: colours.$brand-primary-deep;
+    }
+  }
 }
+
 
 /* ================
    HEADINGS

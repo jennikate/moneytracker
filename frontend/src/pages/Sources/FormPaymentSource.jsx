@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_BASE } from '../../constants/ApiConstants';
-import FormHorizontal from '../../components/FormHorizontal';
+import FormVertical from '../../components/FormVertical';
 
 function FormPaymentSource() {
   const [options, setOptions] = useState([]);
@@ -35,7 +35,7 @@ function FormPaymentSource() {
   }
 
   return (
-    <FormHorizontal
+    <FormVertical
       apiUrl="/payment-source"
       heading="Payment source"
       fields={

@@ -80,6 +80,15 @@ function Payments() {
     getPayments({ expenseType: e.target.value });
   };
 
+  const handleRefreshClick = (e) => {
+    e.preventDefault();
+    getExpenseTypeData(selectedExpenseType || null);
+    getPayments({
+      date: selectedDate || dayjs(),
+      expenseType: selectedExpenseType
+    });
+  };
+
   useEffect(() => {
     getExpenseTypeData(selectedExpenseType || null);
     getPayments({
@@ -93,45 +102,56 @@ function Payments() {
     <>
       <h1>Payments</h1>
       <div className="action-container">
-        <div className="form-field">
-          <label htmlFor="viewMonth">
-            Month
-          </label>
-          <input
-            type="month"
-            id="viewMonth"
-            name="viewMonth"
-            value={dayjs(selectedDate).format('YYYY-MM') || dayjs().format('YYYY-MM')}
-            onChange={(e) => { handleChange(e); }}
-          />
-        </div>
-        {optionsExpenseType && (
+        <div className="actions-left">
           <div className="form-field">
-            <label htmlFor="expenseType">
-              Expense type
+            <label htmlFor="viewMonth">
+              Month
             </label>
-            <select
-              type="select"
-              id="expenseType"
-              name="expenseType"
-              className="select"
-              defaultValue={selectedExpenseType}
-              onChange={(e) => { handleChangeExpense(e); }}
-            >
-              <option value="selectOption">Show all</option>
-              {optionsExpenseType.map((option) => (
-                <option
-                  key={option.id}
-                  value={option.id}
-                  data-relatedvalue={option.relatedId}
-                  data-relatedfield={option.relatedField}
-                >
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            <input
+              type="month"
+              id="viewMonth"
+              name="viewMonth"
+              value={dayjs(selectedDate).format('YYYY-MM') || dayjs().format('YYYY-MM')}
+              onChange={(e) => { handleChange(e); }}
+            />
           </div>
-        )}
+          {optionsExpenseType && (
+            <div className="form-field">
+              <label htmlFor="expenseType">
+                Expense type
+              </label>
+              <select
+                type="select"
+                id="expenseType"
+                name="expenseType"
+                className="select"
+                defaultValue={selectedExpenseType}
+                onChange={(e) => { handleChangeExpense(e); }}
+              >
+                <option value="selectOption">Show all</option>
+                {optionsExpenseType.map((option) => (
+                  <option
+                    key={option.id}
+                    value={option.id}
+                    data-relatedvalue={option.relatedId}
+                    data-relatedfield={option.relatedField}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
+        <div className="actions-right">
+          <button
+            className="button button-submit"
+            type="button"
+            onClick={(e) => handleRefreshClick(e)}
+          >
+            Refresh
+          </button>
+        </div>
 
       </div>
       <div className="payment-table">

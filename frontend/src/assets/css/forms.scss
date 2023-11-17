@@ -15,7 +15,6 @@ select,
   }
 }
 
-
 .select {
   cursor: pointer;
 
@@ -26,7 +25,6 @@ select,
   background-position: right 0.7rem top 50%;
   background-size: 0.65rem auto;
 }
-
 
 .button {
   background-color: colours.$brand-primary;
@@ -50,7 +48,6 @@ select,
     pointer-events: none;
   }
 }
-
 
 label {
   font-size: 1.12rem;
@@ -115,12 +112,10 @@ label {
   }
 
   .confirmation-panel {
-    display: flex;
-    justify-content: flex-start;
     margin-bottom: 20px;
 
     .confirmation-text {
       font-size: 1.5rem;
-      margin: 10px 10px 0 10px; // matches the button
+      margin: 10px 0 20px 0px;
     }
   }

@@ -1,9 +1,9 @@
 import React from 'react';
-import FormHorizontal from '../../components/FormHorizontal';
+import FormVertical from '../../components/FormVertical';
 
 function FormExpenseType() {
   return (
-    <FormHorizontal
+    <FormVertical
       apiUrl="/expense-type"
       heading="Expense type"
       fields={
