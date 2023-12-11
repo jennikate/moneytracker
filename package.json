@@ -4,7 +4,7 @@
   "description": "- Prisma (ORM) - SQLite (database) - Typescript (language)",
   "main": "index.js",
   "devDependencies": {
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.2"
   },
   "scripts": {
     "start:server": "ts-node backend/src/index.ts",
