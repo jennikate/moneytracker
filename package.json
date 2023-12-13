@@ -1,15 +1,7 @@
 {
-  "name": "moneytracker",
-  "version": "1.0.0",
-  "description": "- Prisma (ORM) - SQLite (database) - Typescript (language)",
-  "main": "index.js",
-  "devDependencies": {
-    "ts-node": "^10.9.2"
-  },
-  "scripts": {
-    "start:server": "ts-node backend/src/index.ts",
-    "start:client": "cd ./frontend && npm start"
-  },
-  "author": "JenniKate Wallace",
-  "license": "ISC"
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
 }
