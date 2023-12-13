@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import Sidebar from './Sidebar';
 
-function Page({ children }) {
+// TODO review options for children and use best one, this was just a default starting point
+type Props = { children: ReactNode };
+
+const Page: FC<Props> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const handleSidebarButtonClick = () => {

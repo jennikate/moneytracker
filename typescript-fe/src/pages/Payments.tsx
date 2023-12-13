@@ -15,10 +15,10 @@ import '../assets/css/payments.scss';
 
 function Payments() {
   const [optionsExpenseType, setOptionsExpenseType] = useState();
-  const [paymentData, setPaymentData] = useState();
-  const [selectedDate, setSelectedDate] = useState(sessionStorage.getItem('selectedDate'));
-  const [selectedExpenseType, setSelectedExpenseType] = useState(sessionStorage.getItem('expenseType'));
-  const [totals, setTotals] = useState();
+  // const [paymentData, setPaymentData] = useState();
+  // const [selectedDate, setSelectedDate] = useState(sessionStorage.getItem('selectedDate'));
+  // const [selectedExpenseType, setSelectedExpenseType] = useState(sessionStorage.getItem('expenseType'));
+  // const [totals, setTotals] = useState();
 
   // TODO: this is repeating a call from FormAddPayment, look to combine this
   const getExpenseTypeData = async () => {
@@ -31,74 +31,74 @@ function Payments() {
     }
   };
 
-  // From here is code specific for this page
-  const calculateTotal = (data) => {
-    const result = data.length > 0 ? data.map((payment) => payment.amount).reduce((a, b) => a + b) : 0;
-    setTotals(result);
-  };
+  // // From here is code specific for this page
+  // const calculateTotal = (data) => {
+  //   const result = data.length > 0 ? data.map((payment) => payment.amount).reduce((a, b) => a + b) : 0;
+  //   setTotals(result);
+  // };
 
-  const getPayments = async ({ date, expenseType }) => {
-    let dateToUse;
-    if (date) {
-      dateToUse = date;
-    } else if (sessionStorage.getItem('selectedDate')) {
-      dateToUse = sessionStorage.getItem('selectedDate');
-    } else if (selectedDate) {
-      dateToUse = selectedDate;
-    } else {
-      dateToUse = dayjs();
-    }
+  // const getPayments = async ({ date, expenseType }) => {
+  //   let dateToUse;
+  //   if (date) {
+  //     dateToUse = date;
+  //   } else if (sessionStorage.getItem('selectedDate')) {
+  //     dateToUse = sessionStorage.getItem('selectedDate');
+  //   } else if (selectedDate) {
+  //     dateToUse = selectedDate;
+  //   } else {
+  //     dateToUse = dayjs();
+  //   }
 
-    let expenseTypeToUse;
-    if (expenseType) {
-      expenseTypeToUse = expenseType;
-    } else if (sessionStorage.getItem('expenseType')) {
-      expenseTypeToUse = sessionStorage.getItem('expenseType');
-    } else if (selectedExpenseType) {
-      expenseTypeToUse = selectedExpenseType;
-    } else {
-      expenseTypeToUse = null;
-    }
+  //   let expenseTypeToUse;
+  //   if (expenseType) {
+  //     expenseTypeToUse = expenseType;
+  //   } else if (sessionStorage.getItem('expenseType')) {
+  //     expenseTypeToUse = sessionStorage.getItem('expenseType');
+  //   } else if (selectedExpenseType) {
+  //     expenseTypeToUse = selectedExpenseType;
+  //   } else {
+  //     expenseTypeToUse = null;
+  //   }
 
-    const startDate = dayjs(dateToUse).startOf('month').format('YYYY-MM-DD');
-    const endDate = dayjs(dateToUse).endOf('month').format('YYYY-MM-DD');
+  //   const startDate = dayjs(dateToUse).startOf('month').format('YYYY-MM-DD');
+  //   const endDate = dayjs(dateToUse).endOf('month').format('YYYY-MM-DD');
 
-    const apiResponse = await axios.get(`${API_BASE}/payments?dateStart=${startDate}&dateEnd=${endDate}&expense=${expenseTypeToUse}`);
+  //   const apiResponse = await axios.get(`${API_BASE}/payments?dateStart=${startDate}&dateEnd=${endDate}&expense=${expenseTypeToUse}`);
 
-    setPaymentData(apiResponse.data);
-    calculateTotal(apiResponse.data);
-    sessionStorage.setItem('selectedDate', dateToUse);
-    sessionStorage.setItem('expenseType', expenseTypeToUse);
-  };
+  //   setPaymentData(apiResponse.data);
+  //   calculateTotal(apiResponse.data);
+  //   sessionStorage.setItem('selectedDate', dateToUse);
+  //   sessionStorage.setItem('expenseType', expenseTypeToUse);
+  // };
 
-  const handleChange = (e) => {
-    setSelectedDate(e.target.value);
-    getPayments({ date: dayjs(e.target.value) });
-  };
+  // const handleChange = (e) => {
+  //   setSelectedDate(e.target.value);
+  //   getPayments({ date: dayjs(e.target.value) });
+  // };
 
-  const handleChangeExpense = (e) => {
-    setSelectedExpenseType(e.target.value);
-    getPayments({ expenseType: e.target.value });
-  };
+  // const handleChangeExpense = (e) => {
+  //   setSelectedExpenseType(e.target.value);
+  //   getPayments({ expenseType: e.target.value });
+  // };
 
-  const handleRefreshClick = (e) => {
-    e.preventDefault();
-    getExpenseTypeData(selectedExpenseType || null);
-    getPayments({
-      date: selectedDate || dayjs(),
-      expenseType: selectedExpenseType
-    });
-  };
+  // const handleRefreshClick = (e) => {
+  //   e.preventDefault();
+  //   getExpenseTypeData(selectedExpenseType || null);
+  //   getPayments({
+  //     date: selectedDate || dayjs(),
+  //     expenseType: selectedExpenseType
+  //   });
+  // };
 
   useEffect(() => {
-    getExpenseTypeData(selectedExpenseType || null);
-    getPayments({
-      date: selectedDate || dayjs(),
-      expenseType: selectedExpenseType
-    });
+    getExpenseTypeData();
+    // getPayments({
+    //   date: selectedDate || dayjs(),
+    //   expenseType: selectedExpenseType
+    // });
   }, []);
 
-  if (!paymentData) { return <h1>Loading</h1>; }
+  // if (!paymentData) { return <h1>Loading</h1>; }
   return (
     <>
       <h1>Payments</h1>
@@ -108,13 +108,13 @@ function Payments() {
             <label htmlFor="viewMonth">
               Month
             </label>
-            <input
+            {/* <input
               type="month"
               id="viewMonth"
               name="viewMonth"
               value={dayjs(selectedDate).format('YYYY-MM') || dayjs().format('YYYY-MM')}
               onChange={(e) => { handleChange(e); }}
-            />
+            /> */}
           </div>
           {optionsExpenseType && (
             <div className="form-field">
@@ -144,7 +144,7 @@ function Payments() {
             </div>
           )}
         </div>
-        <div className="actions-right">
+        {/* <div className="actions-right">
           <button
             className="button button-submit"
             type="button"
@@ -152,7 +152,7 @@ function Payments() {
           >
             Refresh
           </button>
-        </div>
+        </div> */}
 
       </div>
       <div className="payment-table">
@@ -168,7 +168,7 @@ function Payments() {
             </tr>
           </thead>
           <tbody>
-            {paymentData && paymentData.map((payment) => (
+            {/* {paymentData && paymentData.map((payment) => (
               <tr key={payment.id}>
                 <td data-label="Date paid">{dayjs(payment?.date).format('DD-MM-YYYY')}</td>
                 <td data-label="Paid to">{payment.recipient.name}</td>
@@ -176,13 +176,13 @@ function Payments() {
                 <td data-label="Type">{payment.expenseType.label}</td>
                 <td data-label="Amount" className="currency">{pounds.format(payment.amount)}</td>
               </tr>
-            ))}
+            ))} */}
           </tbody>
           <tfoot>
-            <tr>
+            {/* <tr>
               <th id="total" colSpan="4">Total :</th>
               <td className="currency">{pounds.format(totals)}</td>
-            </tr>
+            </tr> */}
           </tfoot>
         </table>
       </div>

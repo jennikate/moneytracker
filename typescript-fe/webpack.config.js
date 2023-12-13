@@ -21,7 +21,14 @@ module.exports = (argv) => {
         {
           test: /\.tsx?$/,
           exclude: /node_modules/,
-          use: 'ts-loader',
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true
+              }
+            }
+          ]
         },
         {
           enforce: "pre",

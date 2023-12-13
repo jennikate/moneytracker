@@ -17,13 +17,19 @@ Created first FE with
 - React Router 6
 - Webpack 5
 
+Setting up Typescript FE, extras
+- basic reference guide to setup with webpack https://www.smashingmagazine.com/2020/05/typescript-modern-react-projects-webpack-babel/
+- linting https://typescript-eslint.io/getting-started
+
 First FE is not responsive as current usecase is only for widescreen desktop.
 
 ### Future plans
 Aim to replicate FE with different frameworks/languages/libraries for practice, including making responsive and a native mobile version
 
-TODO:
+InProgress:
 - Typescript
+
+TODO:
 - React Native
 - NextJS?
 
@@ -39,6 +45,11 @@ Prisma REST API ref: https://www.prisma.io/docs/concepts/overview/prisma-in-your
 - remove horizontal form as not used
 - check for other unused items
 - write tests
+
+UX
+- scroll to top when menu link clicked
+- make text buttons use pointer
+- order results in drop downs alphabetically
 
 ---
 - refactor so functions use function not const, save const for variables
