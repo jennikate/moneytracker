@@ -1,0 +1,105 @@
+@use 'reset.scss';
+@use 'components.scss';
+@use '_colours.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+/* ================
+   LAYOUT
+================ */
+
+html,
+body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: colours.$body-text;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+.logo {
+  color: colours.$brand-secondary;
+  font-weight: bold;
+  position: absolute;
+  left: 85%;
+  top: 20px;
+}
+
+.container {
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .wrapper {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    transition: 1s ease;
+    background-color: colours.$brand-secondary;
+  }
+}
+
+.sidebar {
+  position: absolute;
+  background-color: colours.$brand-secondary;
+  color: colours.$contrast-text;
+  width: 25%;
+  min-height: 100%;
+  transition: 1s;
+  left: 0;
+  padding: 50px 25px;
+
+  &_small {
+    transition: 1s;
+    left: -23%;
+  }
+} 
+
+.sidebar-button {
+  position: absolute;
+  border: none;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: 0px 1px 4px 1px rgba(0, 0, 0, .3);
+  left: 100%;
+  top: 2rem;
+  padding-left: 0.5rem;
+  transform: translateX(-50%);
+  cursor: pointer;
+  background-color: colours.$brand-primary;
+  color: colours.$body-text;
+}
+
+.main-content {
+  width: 75%;
+  height: 100%;
+  background-color: colours.$white;
+  transition: 1s ease;
+  padding: 50px;
+  position: relative;
+  left: 25%;
+
+  &_large {
+    width: 98%;
+    left: 2%;
+  }
+}
+
+.section-secondary {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px dotted colours.$brand-primary-deep;
+}
+.content-third {
+  margin-top: 1rem;
+  width: 33%;
+}
